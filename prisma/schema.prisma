@@ -31,9 +31,13 @@ model User {
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @map("updated_at")
 
-  session  Session?
-  accounts Account[]
-  tokens   Token[]
+  session             Session?
+  accounts            Account[]
+  tokens              Token[]
+  invitationsSent     Invitation[] @relation("sentInvitations")
+  invitationsReceived Invitation[] @relation("receivedInvitations")
+  friendships         Friendship[] @relation("userFriendships")
+  friendOf            Friendship[] @relation("friendOf")
 
   @@map("users")
 }
@@ -86,4 +90,39 @@ model Token {
   user User @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("tokens")
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model Invitation {
+  id         String           @id @default(uuid())
+  senderId   String           @map("sender_id")
+  receiverId String           @map("receiver_id")
+  status     InvitationStatus @default(PENDING)
+  repliedAt  DateTime?        @map("replied_at")
+  createdAt  DateTime         @default(now()) @map("created_at")
+
+  sender   User @relation("sentInvitations", fields: [senderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  receiver User @relation("receivedInvitations", fields: [receiverId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@unique([senderId, receiverId])
+  @@index([receiverId, status])
+  @@map("invitations")
+}
+
+model Friendship {
+  id        String   @id @default(uuid())
+  userId    String
+  friendId  String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user   User @relation("userFriendships", fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  friend User @relation("friendOf", fields: [friendId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@unique([userId, friendId])
+  @@map("friendships")
 }
