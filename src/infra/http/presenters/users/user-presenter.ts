@@ -1,7 +1,8 @@
 import { User } from '@/domains/chat/models/entities/user';
+import { UserResponse } from '../../schemas/user/user-schema';
 
 export class UserPresenter {
-	static toHTTP(data: User) {
+	static toHTTP(data: User): UserResponse {
 		return {
 			id: data.id.toString(),
 			name: data.name,

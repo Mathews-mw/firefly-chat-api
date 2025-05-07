@@ -1,15 +1,15 @@
 import { inject, injectable } from 'tsyringe';
 
 import { Outcome, success } from '@/core/outcome';
-import { Invitation } from '@/domains/chat/models/entities/invitation';
 import { IInvitationRepository } from '../repositories/invitation-repository';
 import { DEPENDENCY_IDENTIFIERS } from '@/shared/di/containers/dependency-identifiers';
+import { InvitationWithReceiver } from '@/domains/chat/models/entities/value-objects/invitation-with-receiver';
 
 interface IRequest {
 	meId: string;
 }
 
-type Response = Outcome<null, { invitations: Array<Invitation> }>;
+type Response = Outcome<null, { invitations: Array<InvitationWithReceiver> }>;
 
 @injectable()
 export class ListingUserSentInvitationsUseCase {

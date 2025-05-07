@@ -5,11 +5,15 @@ import { authMiddleware } from '../middlewares/auth-middleware';
 import { sendInvitationSchema } from '../schemas/friendship/send-invitation-schema';
 import { acceptInvitationSchema } from '../schemas/friendship/accept-invitation-schema';
 import { rejectInvitationSchema } from '../schemas/friendship/reject-invitation-schema';
+import { deleteInvitationSchema } from '../schemas/friendship/delete-invitation-schema';
 import { sendInvitationController } from '../controllers/friendships/send-invitation-controller';
+import { userInvitationsAmountSchema } from '../schemas/friendship/user-invitations-amount-schema';
 import { acceptInvitationController } from '../controllers/friendships/accept-invitation-controller';
 import { rejectInvitationController } from '../controllers/friendships/reject-invitation-controller';
 import { listingUserFriendsResponseSchema } from '../schemas/friendship/listing-user-friends-schema';
+import { deleteInvitationController } from '../controllers/friendships/delete-invitation-controller';
 import { listingUserFriendsController } from '../controllers/friendships/listing-user-friends-controller';
+import { userInvitationsAmountController } from '../controllers/friendships/user-invitations-amount-controller';
 import { listingUserSentInvitationsResponseSchema } from '../schemas/friendship/listing-user-sent-invitations-schema';
 import { listingUserSentInvitationsController } from '../controllers/friendships/listing-user-sent-invitations-controller';
 import { listingUserPendingInvitationsResponseSchema } from '../schemas/friendship/listing-user-pending-invitations-schema';
@@ -46,10 +50,26 @@ export async function friendshipsRoutes(app: FastifyInstance) {
 
 	app
 		.withTypeProvider<ZodTypeProvider>()
+		.delete(
+			'/invitation/:invitationId/delete',
+			{ preHandler: [authMiddleware], schema: deleteInvitationSchema },
+			deleteInvitationController
+		);
+
+	app
+		.withTypeProvider<ZodTypeProvider>()
 		.get(
 			'/invitation/user/pending',
 			{ preHandler: [authMiddleware], schema: listingUserPendingInvitationsResponseSchema },
 			listingUserPendingInvitationsController
+		);
+
+	app
+		.withTypeProvider<ZodTypeProvider>()
+		.get(
+			'/invitation/user/amount',
+			{ preHandler: [authMiddleware], schema: userInvitationsAmountSchema },
+			userInvitationsAmountController
 		);
 
 	app

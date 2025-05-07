@@ -1,6 +1,6 @@
 export interface IPaginationParams {
 	page: number;
-	perPage: number;
+	perPage: 'all' | number;
 }
 
 export interface IPaginationResponse {
@@ -13,5 +13,4 @@ export interface IPaginationResponse {
 export interface ICursor {
 	nextCursor?: string;
 	previousCursor?: string;
-	stillHaveData: boolean;
 }

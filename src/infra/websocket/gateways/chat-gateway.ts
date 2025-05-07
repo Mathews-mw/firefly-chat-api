@@ -19,7 +19,7 @@ export async function chatGateway(app: FastifyInstance) {
 		connection.on('message', async (data) => {
 			try {
 				const msg = JSON.parse(data.toString()) as { event: keyof ClientToServerEvents; payload: any };
-				console.log('msg: ', msg);
+				console.log('ws msg: ', msg);
 
 				await handleEvent(msg.event, msg.payload, connection, userId);
 			} catch (error) {

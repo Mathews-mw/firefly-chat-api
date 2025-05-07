@@ -1,7 +1,7 @@
 import { container } from 'tsyringe';
 import { FastifyReply, FastifyRequest } from 'fastify';
 
-import { InvitationPresenter } from '../../presenters/friendships/invitation-presenter';
+import { InvitationWithSenderPresenter } from '../../presenters/friendships/invitation-with-sender-presenter';
 import { ListingUserPendingInvitationsUseCase } from '@/domains/chat/application/features/friendships/use-cases/listing-user-pending-invitations-use-case';
 
 export async function listingUserPendingInvitationsController(request: FastifyRequest, reply: FastifyReply) {
@@ -17,5 +17,5 @@ export async function listingUserPendingInvitationsController(request: FastifyRe
 		throw result.value;
 	}
 
-	return reply.status(200).send(result.value.invitations.map(InvitationPresenter.toHTTP));
+	return reply.status(200).send(result.value.invitations.map(InvitationWithSenderPresenter.toHTTP));
 }

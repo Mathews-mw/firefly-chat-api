@@ -1,7 +1,10 @@
 import { prisma } from '../prisma';
+import { Prisma } from 'prisma/generated/client';
 import { Friendship } from '@/domains/chat/models/entities/friendship';
 import { FriendshipMapper } from '../mappers/friendship/friendship-mapper';
+import { FriendshipWithFriendMapper } from '../mappers/friendship/friendship-with-friend-mapper';
 import {
+	IFindManyByUserQuery,
 	IFindUniqueQuery,
 	IFriendshipRepository,
 } from '@/domains/chat/application/features/friendships/repositories/friendship-repository';
@@ -48,14 +51,59 @@ export class PrismaFriendshipsRepository implements IFriendshipRepository {
 		});
 	}
 
-	async findManyByUserId(userId: string): Promise<Friendship[]> {
-		const friendships = await prisma.friendship.findMany({
+	async findManyByUserId({ page, perPage, userId, search }: IFindManyByUserQuery) {
+		const query: Prisma.FriendshipFindManyArgs = {
 			where: {
 				userId,
+				friend: {
+					name: {
+						contains: search,
+						mode: 'insensitive',
+					},
+				},
 			},
-		});
+		};
 
-		return friendships.map(FriendshipMapper.toDomain);
+		const isPerPageNumber = typeof perPage === 'number';
+
+		const [friendships, count] = await prisma.$transaction([
+			prisma.friendship.findMany({
+				where: query.where,
+				include: {
+					friend: true,
+				},
+				orderBy: {
+					friend: {
+						name: 'asc',
+					},
+				},
+				take: isPerPageNumber ? perPage : undefined,
+				skip: isPerPageNumber ? (page - 1) * perPage : undefined,
+			}),
+			prisma.friendship.count({
+				where: query.where,
+			}),
+		]);
+
+		let _perPage = isPerPageNumber ? perPage : 10;
+
+		if (perPage === 'all') {
+			_perPage = count;
+		}
+
+		const totalPages = Math.ceil(count / _perPage);
+
+		const pagination = {
+			page,
+			perPage: _perPage,
+			totalPages,
+			totalOccurrences: count,
+		};
+
+		return {
+			pagination,
+			friendships: friendships.map(FriendshipWithFriendMapper.toDomain),
+		};
 	}
 
 	async findById(id: string) {

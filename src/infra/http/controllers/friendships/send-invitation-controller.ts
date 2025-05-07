@@ -5,9 +5,7 @@ import { SendInvitationRequest } from '../../schemas/friendship/send-invitation-
 import { SendInvitationUseCase } from '@/domains/chat/application/features/friendships/use-cases/send-invitation-use-case';
 
 export async function sendInvitationController(request: FastifyRequest, reply: FastifyReply) {
-	console.log(' request body: ', request.body);
-
-	const { receiver_id } = request.body as SendInvitationRequest;
+	const { username } = request.body as SendInvitationRequest;
 
 	const { sub } = request.user;
 
@@ -15,7 +13,7 @@ export async function sendInvitationController(request: FastifyRequest, reply: F
 
 	const result = await service.execute({
 		senderId: sub,
-		receiverId: receiver_id,
+		username,
 	});
 
 	if (result.isFalse()) {

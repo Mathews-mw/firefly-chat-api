@@ -2,7 +2,7 @@ import z from 'zod';
 import { FastifySchema } from 'fastify/types/schema';
 
 const bodySchema = z.object({
-	receiver_id: z.string().uuid(),
+	username: z.string(),
 });
 
 const responseSchema = z.object({

@@ -2,6 +2,7 @@ import z from 'zod';
 import { FastifySchema } from 'fastify/types/schema';
 
 import { rolesSchema } from '@/core/auth/roles';
+import { userSchema } from './user-schema';
 
 const responseSchema = z.object({
 	id: z.string().uuid(),

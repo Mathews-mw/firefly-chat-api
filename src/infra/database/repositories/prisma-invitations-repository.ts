@@ -1,12 +1,15 @@
 import { prisma } from '../prisma';
 import { Invitation } from '@/domains/chat/models/entities/invitation';
 import { InvitationMapper } from '../mappers/friendship/invitation-mapper';
+import { InvitationWithSenderMapper } from '../mappers/friendship/invitation-with-sender-mapper';
 import {
 	IFindManyByReceiverQuery,
 	IFindManyBySenderQuery,
 	IFindUniqueQuery,
 	IInvitationRepository,
+	IInvitationsAmountQuery,
 } from '@/domains/chat/application/features/friendships/repositories/invitation-repository';
+import { InvitationWithReceiverMapper } from '../mappers/friendship/invitation-with-receiver-mapper';
 
 export class PrismaInvitationsRepository implements IInvitationRepository {
 	async create(invitation: Invitation) {
@@ -46,20 +49,38 @@ export class PrismaInvitationsRepository implements IInvitationRepository {
 				senderId,
 				status: status,
 			},
+			include: {
+				receiver: true,
+			},
 		});
 
-		return invitations.map(InvitationMapper.toDomain);
+		return invitations.map(InvitationWithReceiverMapper.toDomain);
 	}
 
-	async findManyByReceiverId({ receiverId, status }: IFindManyByReceiverQuery): Promise<Invitation[]> {
+	async findManyByReceiverId({ receiverId, status }: IFindManyByReceiverQuery) {
 		const invitations = await prisma.invitation.findMany({
 			where: {
 				receiverId,
 				status: status,
 			},
+			include: {
+				sender: true,
+			},
 		});
 
-		return invitations.map(InvitationMapper.toDomain);
+		return invitations.map(InvitationWithSenderMapper.toDomain);
+	}
+
+	async invitationsAmount({ receiverId, senderId, status }: IInvitationsAmountQuery): Promise<number> {
+		const amount = await prisma.invitation.count({
+			where: {
+				senderId,
+				receiverId,
+				status: status,
+			},
+		});
+
+		return amount;
 	}
 
 	async findById(id: string) {
