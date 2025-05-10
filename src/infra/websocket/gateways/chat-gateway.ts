@@ -1,24 +1,26 @@
-import {
-	ChatMessage,
-	ClientToServerEvents,
-	ServerToClientEvents,
-} from '@/domains/chat/application/features/chat/chat-types';
-import { ChatUseCase } from '@/domains/chat/application/features/chat/chat-use-case';
-import { authMiddleware } from '@/infra/http/middlewares/auth-middleware';
-import { FastifyInstance } from 'fastify';
 import * as WebSocket from 'ws';
+import { container } from 'tsyringe';
+import { FastifyInstance } from 'fastify';
+
+import { authMiddleware } from '@/infra/http/middlewares/auth-middleware';
+import { IClientToServerEvents, IServerToClientEvents } from '@/infra/websocket/chat-types';
+import { CreateChatMessageUseCase } from '@/domains/chat/application/features/chat/use-cases/create-chat-message-use-case';
+import { MarkMessagesAsReadUseCase } from '@/domains/chat/application/features/chat/use-cases/mark-messages-as-read-use-case';
 
 export async function chatGateway(app: FastifyInstance) {
 	// Map roomId → Set de sockets
 	const rooms = new Map<string, Set<WebSocket.WebSocket>>();
 
+	const chatService = container.resolve(CreateChatMessageUseCase);
+	const markAsReadService = container.resolve(MarkMessagesAsReadUseCase);
+
 	app.get('/chat/members', { websocket: true, preHandler: [authMiddleware] }, (connection, request) => {
-		const { sub: userId, role } = request.user;
+		const { sub: userId } = request.user;
 
 		// 1) Registra handlers de mensagem
 		connection.on('message', async (data) => {
 			try {
-				const msg = JSON.parse(data.toString()) as { event: keyof ClientToServerEvents; payload: any };
+				const msg = JSON.parse(data.toString()) as { event: keyof IClientToServerEvents; payload: any };
 				console.log('ws msg: ', msg);
 
 				await handleEvent(msg.event, msg.payload, connection, userId);
@@ -40,10 +42,10 @@ export async function chatGateway(app: FastifyInstance) {
 		});
 
 		// Função de broadcast
-		function broadcast<K extends keyof ServerToClientEvents>(
+		function broadcast<K extends keyof IServerToClientEvents>(
 			roomId: string,
 			event: K,
-			payload: ServerToClientEvents[K]
+			payload: IServerToClientEvents[K]
 		) {
 			const sockets = rooms.get(roomId);
 
@@ -57,9 +59,9 @@ export async function chatGateway(app: FastifyInstance) {
 		}
 
 		// Handler genérico de eventos
-		async function handleEvent(
-			event: keyof ClientToServerEvents,
-			payload: any,
+		async function handleEvent<K extends keyof IClientToServerEvents>(
+			event: K,
+			payload: IClientToServerEvents[K],
 			socket: WebSocket.WebSocket,
 			userId: string
 		) {
@@ -77,6 +79,7 @@ export async function chatGateway(app: FastifyInstance) {
 
 					break;
 				}
+
 				case 'leaveRoom': {
 					const { roomId } = payload;
 
@@ -86,15 +89,55 @@ export async function chatGateway(app: FastifyInstance) {
 
 					break;
 				}
+
+				case 'markAsRead': {
+					const { roomId, messageIds } = payload as IClientToServerEvents['markAsRead'];
+
+					try {
+						await markAsReadService.execute({ roomId, userId, messageIds });
+
+						socket.send(JSON.stringify({ event: 'readConfirmed', payload: { roomId, messageIds } }));
+
+						broadcast(roomId, 'messageRead', {
+							roomId,
+							userId,
+							messageIds,
+						});
+					} catch (error: any) {
+						socket.send(JSON.stringify({ event: 'error', payload: { message: error.message } }));
+					} finally {
+						break;
+					}
+				}
+
 				case 'sendMessage': {
-					const { roomId, content } = payload;
+					const { roomId, content } = payload as IClientToServerEvents['sendMessage'];
 
 					// 1) persiste no DB via ChatService
-					const chatService = new ChatUseCase();
-					const message: ChatMessage = await chatService.execute(roomId, userId, content);
+					const result = await chatService.execute({ senderId: userId, content, roomId });
+
+					if (result.isFalse()) {
+						throw result.value;
+					}
+
+					const { chatMessage } = result.value;
 
 					// 2) envia a todos da sala
-					broadcast(roomId, 'message', { roomId, message });
+					broadcast(roomId, 'message', {
+						roomId,
+						message: {
+							id: chatMessage.id.toString(),
+							roomId: chatMessage.roomId.toString(),
+							senderId: chatMessage.senderId.toString(),
+							content: chatMessage.content,
+							createdAt: chatMessage.createdAt.toISOString(),
+							author: {
+								id: chatMessage.author.id.toString(),
+								name: chatMessage.author.name,
+								avatarUrl: chatMessage.author.avatarUrl,
+							},
+						},
+					});
 
 					break;
 				}

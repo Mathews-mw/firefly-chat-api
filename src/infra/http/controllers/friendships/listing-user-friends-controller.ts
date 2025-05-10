@@ -24,7 +24,7 @@ export async function listingUserFriendsController(request: FastifyRequest, repl
 	}
 
 	const response = {
-		pagination: PaginationPresenter.toHTTP(result.value.pagination),
+		pagination: PaginationPresenter.paginationModeToHTTP(result.value.pagination),
 		friends: result.value.friendships.map(FriendshipWithPresenterPresenter.toHTTP),
 	};
 

@@ -5,6 +5,7 @@ const code = z
 		z.literal('BAD_REQUEST_ERROR'),
 		z.literal('SAME_EMAIL_ERROR'),
 		z.literal('SAME_USERNAME_ERROR'),
+		z.literal('ROOM_ALREADY_EXISTS'),
 		z.literal('OLD_PASSWORD_NOT_MATCH_ERROR'),
 	])
 	.default('BAD_REQUEST_ERROR');

@@ -10,7 +10,14 @@ export interface IPaginationResponse {
 	totalOccurrences: number;
 }
 
-export interface ICursor {
+export interface ICursorParams {
+	cursor?: string;
+	limit: number;
+	skip?: number;
+}
+
+export interface ICursorResponse {
 	nextCursor?: string;
 	previousCursor?: string;
+	hasMore: boolean;
 }

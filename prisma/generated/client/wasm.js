@@ -175,6 +175,33 @@ exports.Prisma.FriendshipScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.RoomScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ParticipantScalarFieldEnum = {
+  id: 'id',
+  roomId: 'roomId',
+  userId: 'userId'
+};
+
+exports.Prisma.ChatMessageScalarFieldEnum = {
+  id: 'id',
+  roomId: 'roomId',
+  senderId: 'senderId',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ReadReceiptScalarFieldEnum = {
+  messageId: 'messageId',
+  userId: 'userId',
+  readAt: 'readAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -211,13 +238,22 @@ exports.InvitationStatus = exports.$Enums.InvitationStatus = {
   REJECTED: 'REJECTED'
 };
 
+exports.RoomType = exports.$Enums.RoomType = {
+  PRIVATE: 'PRIVATE',
+  GROUP: 'GROUP'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
   Session: 'Session',
   Token: 'Token',
   Invitation: 'Invitation',
-  Friendship: 'Friendship'
+  Friendship: 'Friendship',
+  Room: 'Room',
+  Participant: 'Participant',
+  ChatMessage: 'ChatMessage',
+  ReadReceipt: 'ReadReceipt'
 };
 
 /**
