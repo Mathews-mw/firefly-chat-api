@@ -9,6 +9,7 @@ export class ChatMessageMapper {
 				roomId: new UniqueEntityId(data.roomId),
 				senderId: new UniqueEntityId(data.senderId),
 				content: data.content,
+				isDeleted: data.isDeleted,
 				createdAt: data.createdAt,
 				updatedAt: data.updatedAt,
 			},
@@ -22,6 +23,7 @@ export class ChatMessageMapper {
 			roomId: data.roomId.toString(),
 			senderId: data.senderId.toString(),
 			content: data.content,
+			isDeleted: data.isDeleted,
 			createdAt: data.createdAt,
 			updatedAt: data.updatedAt ?? null,
 		};

@@ -60,7 +60,7 @@ export class Account extends Entity<IAccountProps> {
 		const account = new Account(
 			{
 				...props,
-				createdAt: new Date(),
+				createdAt: props.createdAt ?? new Date(),
 			},
 			id
 		);

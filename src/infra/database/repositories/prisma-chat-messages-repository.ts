@@ -7,6 +7,7 @@ import {
 	IChatMessageQuerySearchWithCursor,
 	IChatMessageRepository,
 } from '@/domains/chat/application/features/chat/repositories/chat-message-repository';
+import { ChatMessageDetailsMapper } from '../mappers/chat/chat-message-details-mapper';
 
 export class PrismaChatMessagesRepository implements IChatMessageRepository {
 	async create(chatMessage: ChatMessage) {
@@ -105,5 +106,24 @@ export class PrismaChatMessagesRepository implements IChatMessageRepository {
 		}
 
 		return ChatMessageMapper.toDomain(chatMessage);
+	}
+
+	async findDetails(id: string) {
+		const chatMessage = await prisma.chatMessage.findUnique({
+			where: {
+				id,
+			},
+			include: {
+				author: true,
+				room: true,
+				readReceipts: true,
+			},
+		});
+
+		if (!chatMessage) {
+			return null;
+		}
+
+		return ChatMessageDetailsMapper.toDomain(chatMessage);
 	}
 }

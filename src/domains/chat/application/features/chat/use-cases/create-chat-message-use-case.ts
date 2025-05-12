@@ -52,6 +52,8 @@ export class CreateChatMessageUseCase {
 			content: newChatMessage.content,
 			createdAt: newChatMessage.createdAt,
 			author: user,
+			isDeleted: false,
+			readReceipts: [],
 		});
 
 		return success({ chatMessage: response });

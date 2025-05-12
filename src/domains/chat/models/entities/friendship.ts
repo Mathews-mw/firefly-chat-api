@@ -33,7 +33,7 @@ export class Friendship extends Entity<IFriendshipProps> {
 		const friendship = new Friendship(
 			{
 				...props,
-				createdAt: new Date(),
+				createdAt: props.createdAt ?? new Date(),
 			},
 			id
 		);

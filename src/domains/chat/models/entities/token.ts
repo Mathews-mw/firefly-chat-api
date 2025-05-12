@@ -39,7 +39,7 @@ export class Token extends Entity<ITokenProps> {
 		const token = new Token(
 			{
 				...props,
-				createdAt: new Date(),
+				createdAt: props.createdAt ?? new Date(),
 			},
 			id
 		);

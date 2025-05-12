@@ -8,6 +8,7 @@ export const DEPENDENCY_IDENTIFIERS = {
 	SESSIONS_REPOSITORY: 'SessionsRepository',
 	USERS_REPOSITORY: 'UsersRepository',
 	READ_RECEIPTS_REPOSITORY: 'ReadReceiptsRepository',
+	ATTACHMENTS_REPOSITORY: 'AttachmentsRepository',
 } as const;
 
 export type DependencyIdentifiers = (typeof DEPENDENCY_IDENTIFIERS)[keyof typeof DEPENDENCY_IDENTIFIERS];

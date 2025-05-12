@@ -58,7 +58,7 @@ export class Invitation extends Entity<IInvitationProps> {
 			{
 				...props,
 				status: props.status ?? 'PENDING',
-				createdAt: new Date(),
+				createdAt: props.createdAt ?? new Date(),
 			},
 			id
 		);

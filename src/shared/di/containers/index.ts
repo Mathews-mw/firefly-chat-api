@@ -6,6 +6,7 @@ import { PrismaUsersRepository } from '@/infra/database/repositories/prisma-user
 import { PrismaRoomsRepository } from '@/infra/database/repositories/prisma-rooms-repository';
 import { PrismaSessionsRepository } from '@/infra/database/repositories/prisma-sessions-repository';
 import { PrismaAccountsRepository } from '@/infra/database/repositories/prisma-accounts-repository';
+import { PrismaAttachmentsRepository } from '@/infra/database/repositories/prisma-attachments-repository';
 import { PrismaFriendshipsRepository } from '@/infra/database/repositories/prisma-friendships-repository';
 import { PrismaInvitationsRepository } from '@/infra/database/repositories/prisma-invitations-repository';
 import { PrismaParticipantsRepository } from '@/infra/database/repositories/prisma-participants-repository';
@@ -20,6 +21,7 @@ registerSingleton('UsersRepository', PrismaUsersRepository);
 registerSingleton('RoomsRepository', PrismaRoomsRepository);
 registerSingleton('AccountsRepository', PrismaAccountsRepository);
 registerSingleton('SessionsRepository', PrismaSessionsRepository);
+registerSingleton('AttachmentsRepository', PrismaAttachmentsRepository);
 registerSingleton('InvitationsRepository', PrismaInvitationsRepository);
 registerSingleton('FriendshipsRepository', PrismaFriendshipsRepository);
 registerSingleton('ParticipantsRepository', PrismaParticipantsRepository);

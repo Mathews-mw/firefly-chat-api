@@ -8,8 +8,10 @@ import fastifyJwt from '@fastify/jwt';
 import { readFileSync } from 'node:fs';
 import fastifyCors from '@fastify/cors';
 import fastifyCookie from '@fastify/cookie';
+import fastifyStatic from '@fastify/static';
 import fastifySwagger from '@fastify/swagger';
 import fastifyWebsocket from '@fastify/websocket';
+import fastifyMultipart from '@fastify/multipart';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler, ZodTypeProvider } from 'fastify-type-provider-zod';
 
@@ -26,6 +28,8 @@ app.setSerializerCompiler(serializerCompiler);
 app.setValidatorCompiler(validatorCompiler);
 
 app.register(fastifyWebsocket);
+
+app.register(fastifyMultipart);
 
 app.register(fastifySwagger, {
 	openapi: {
@@ -72,6 +76,11 @@ app.register(fastifyCors, {
 	origin: ['http://localhost:3000'],
 	credentials: true,
 	methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+});
+
+app.register(fastifyStatic, {
+	root: path.resolve(cwd(), 'tmp'),
+	prefix: '/api/public',
 });
 
 app.register(chatGateway, { prefix: '/ws' });

@@ -6,6 +6,7 @@ export interface IChatMessageProps {
 	roomId: UniqueEntityId;
 	senderId: UniqueEntityId;
 	content: string;
+	isDeleted: boolean;
 	createdAt: Date;
 	updatedAt?: Date | null;
 }
@@ -38,6 +39,15 @@ export class ChatMessage extends Entity<IChatMessageProps> {
 		this._touch();
 	}
 
+	get isDeleted() {
+		return this.props.isDeleted;
+	}
+
+	set isDeleted(isDeleted: boolean) {
+		this.props.isDeleted = isDeleted;
+		this._touch();
+	}
+
 	get createdAt() {
 		return this.props.createdAt;
 	}
@@ -50,11 +60,12 @@ export class ChatMessage extends Entity<IChatMessageProps> {
 		this.props.updatedAt = new Date();
 	}
 
-	static create(props: Optional<IChatMessageProps, 'createdAt'>, id?: UniqueEntityId) {
+	static create(props: Optional<IChatMessageProps, 'isDeleted' | 'createdAt'>, id?: UniqueEntityId) {
 		const chatMessage = new ChatMessage(
 			{
 				...props,
-				createdAt: new Date(),
+				isDeleted: props.isDeleted ?? false,
+				createdAt: props.createdAt ?? new Date(),
 			},
 			id
 		);

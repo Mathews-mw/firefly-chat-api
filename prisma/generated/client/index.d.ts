@@ -63,6 +63,11 @@ export type ChatMessage = $Result.DefaultSelection<Prisma.$ChatMessagePayload>
  * 
  */
 export type ReadReceipt = $Result.DefaultSelection<Prisma.$ReadReceiptPayload>
+/**
+ * Model Attachment
+ * 
+ */
+export type Attachment = $Result.DefaultSelection<Prisma.$AttachmentPayload>
 
 /**
  * Enums
@@ -355,6 +360,16 @@ export class PrismaClient<
     * ```
     */
   get readReceipt(): Prisma.ReadReceiptDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.attachment`: Exposes CRUD operations for the **Attachment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Attachments
+    * const attachments = await prisma.attachment.findMany()
+    * ```
+    */
+  get attachment(): Prisma.AttachmentDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -804,7 +819,8 @@ export namespace Prisma {
     Room: 'Room',
     Participant: 'Participant',
     ChatMessage: 'ChatMessage',
-    ReadReceipt: 'ReadReceipt'
+    ReadReceipt: 'ReadReceipt',
+    Attachment: 'Attachment'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -823,7 +839,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "token" | "invitation" | "friendship" | "room" | "participant" | "chatMessage" | "readReceipt"
+      modelProps: "user" | "account" | "session" | "token" | "invitation" | "friendship" | "room" | "participant" | "chatMessage" | "readReceipt" | "attachment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1567,6 +1583,80 @@ export namespace Prisma {
           }
         }
       }
+      Attachment: {
+        payload: Prisma.$AttachmentPayload<ExtArgs>
+        fields: Prisma.AttachmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AttachmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AttachmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          findFirst: {
+            args: Prisma.AttachmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AttachmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          findMany: {
+            args: Prisma.AttachmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>[]
+          }
+          create: {
+            args: Prisma.AttachmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          createMany: {
+            args: Prisma.AttachmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AttachmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>[]
+          }
+          delete: {
+            args: Prisma.AttachmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          update: {
+            args: Prisma.AttachmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.AttachmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AttachmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AttachmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.AttachmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          aggregate: {
+            args: Prisma.AttachmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAttachment>
+          }
+          groupBy: {
+            args: Prisma.AttachmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AttachmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AttachmentCountArgs<ExtArgs>
+            result: $Utils.Optional<AttachmentCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1661,6 +1751,7 @@ export namespace Prisma {
     participant?: ParticipantOmit
     chatMessage?: ChatMessageOmit
     readReceipt?: ReadReceiptOmit
+    attachment?: AttachmentOmit
   }
 
   /* Types for Logging */
@@ -1860,11 +1951,13 @@ export namespace Prisma {
   export type RoomCountOutputType = {
     participants: number
     chatMessages: number
+    attachments: number
   }
 
   export type RoomCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     participants?: boolean | RoomCountOutputTypeCountParticipantsArgs
     chatMessages?: boolean | RoomCountOutputTypeCountChatMessagesArgs
+    attachments?: boolean | RoomCountOutputTypeCountAttachmentsArgs
   }
 
   // Custom InputTypes
@@ -1892,6 +1985,13 @@ export namespace Prisma {
     where?: ChatMessageWhereInput
   }
 
+  /**
+   * RoomCountOutputType without action
+   */
+  export type RoomCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttachmentWhereInput
+  }
+
 
   /**
    * Count Type ChatMessageCountOutputType
@@ -1899,10 +1999,12 @@ export namespace Prisma {
 
   export type ChatMessageCountOutputType = {
     readReceipts: number
+    attachments: number
   }
 
   export type ChatMessageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     readReceipts?: boolean | ChatMessageCountOutputTypeCountReadReceiptsArgs
+    attachments?: boolean | ChatMessageCountOutputTypeCountAttachmentsArgs
   }
 
   // Custom InputTypes
@@ -1921,6 +2023,13 @@ export namespace Prisma {
    */
   export type ChatMessageCountOutputTypeCountReadReceiptsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReadReceiptWhereInput
+  }
+
+  /**
+   * ChatMessageCountOutputType without action
+   */
+  export type ChatMessageCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttachmentWhereInput
   }
 
 
@@ -8792,6 +8901,7 @@ export namespace Prisma {
     createdAt?: boolean
     participants?: boolean | Room$participantsArgs<ExtArgs>
     chatMessages?: boolean | Room$chatMessagesArgs<ExtArgs>
+    attachments?: boolean | Room$attachmentsArgs<ExtArgs>
     _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["room"]>
 
@@ -8817,6 +8927,7 @@ export namespace Prisma {
   export type RoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     participants?: boolean | Room$participantsArgs<ExtArgs>
     chatMessages?: boolean | Room$chatMessagesArgs<ExtArgs>
+    attachments?: boolean | Room$attachmentsArgs<ExtArgs>
     _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type RoomIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -8827,6 +8938,7 @@ export namespace Prisma {
     objects: {
       participants: Prisma.$ParticipantPayload<ExtArgs>[]
       chatMessages: Prisma.$ChatMessagePayload<ExtArgs>[]
+      attachments: Prisma.$AttachmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9228,6 +9340,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     participants<T extends Room$participantsArgs<ExtArgs> = {}>(args?: Subset<T, Room$participantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     chatMessages<T extends Room$chatMessagesArgs<ExtArgs> = {}>(args?: Subset<T, Room$chatMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    attachments<T extends Room$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Room$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9693,6 +9806,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ChatMessageScalarFieldEnum | ChatMessageScalarFieldEnum[]
+  }
+
+  /**
+   * Room.attachments
+   */
+  export type Room$attachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    where?: AttachmentWhereInput
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    cursor?: AttachmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
   }
 
   /**
@@ -10769,6 +10906,7 @@ export namespace Prisma {
     roomId: string | null
     senderId: string | null
     content: string | null
+    isDeleted: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -10778,6 +10916,7 @@ export namespace Prisma {
     roomId: string | null
     senderId: string | null
     content: string | null
+    isDeleted: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -10787,6 +10926,7 @@ export namespace Prisma {
     roomId: number
     senderId: number
     content: number
+    isDeleted: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -10798,6 +10938,7 @@ export namespace Prisma {
     roomId?: true
     senderId?: true
     content?: true
+    isDeleted?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -10807,6 +10948,7 @@ export namespace Prisma {
     roomId?: true
     senderId?: true
     content?: true
+    isDeleted?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -10816,6 +10958,7 @@ export namespace Prisma {
     roomId?: true
     senderId?: true
     content?: true
+    isDeleted?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -10898,6 +11041,7 @@ export namespace Prisma {
     roomId: string
     senderId: string
     content: string
+    isDeleted: boolean
     createdAt: Date
     updatedAt: Date | null
     _count: ChatMessageCountAggregateOutputType | null
@@ -10924,11 +11068,13 @@ export namespace Prisma {
     roomId?: boolean
     senderId?: boolean
     content?: boolean
+    isDeleted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     room?: boolean | RoomDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
     readReceipts?: boolean | ChatMessage$readReceiptsArgs<ExtArgs>
+    attachments?: boolean | ChatMessage$attachmentsArgs<ExtArgs>
     _count?: boolean | ChatMessageCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chatMessage"]>
 
@@ -10937,6 +11083,7 @@ export namespace Prisma {
     roomId?: boolean
     senderId?: boolean
     content?: boolean
+    isDeleted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     room?: boolean | RoomDefaultArgs<ExtArgs>
@@ -10948,6 +11095,7 @@ export namespace Prisma {
     roomId?: boolean
     senderId?: boolean
     content?: boolean
+    isDeleted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     room?: boolean | RoomDefaultArgs<ExtArgs>
@@ -10959,15 +11107,17 @@ export namespace Prisma {
     roomId?: boolean
     senderId?: boolean
     content?: boolean
+    isDeleted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ChatMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "senderId" | "content" | "createdAt" | "updatedAt", ExtArgs["result"]["chatMessage"]>
+  export type ChatMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "senderId" | "content" | "isDeleted" | "createdAt" | "updatedAt", ExtArgs["result"]["chatMessage"]>
   export type ChatMessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     room?: boolean | RoomDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
     readReceipts?: boolean | ChatMessage$readReceiptsArgs<ExtArgs>
+    attachments?: boolean | ChatMessage$attachmentsArgs<ExtArgs>
     _count?: boolean | ChatMessageCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ChatMessageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10985,12 +11135,14 @@ export namespace Prisma {
       room: Prisma.$RoomPayload<ExtArgs>
       author: Prisma.$UserPayload<ExtArgs>
       readReceipts: Prisma.$ReadReceiptPayload<ExtArgs>[]
+      attachments: Prisma.$AttachmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       roomId: string
       senderId: string
       content: string
+      isDeleted: boolean
       createdAt: Date
       updatedAt: Date | null
     }, ExtArgs["result"]["chatMessage"]>
@@ -11390,6 +11542,7 @@ export namespace Prisma {
     room<T extends RoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoomDefaultArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     readReceipts<T extends ChatMessage$readReceiptsArgs<ExtArgs> = {}>(args?: Subset<T, ChatMessage$readReceiptsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReadReceiptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    attachments<T extends ChatMessage$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, ChatMessage$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11423,6 +11576,7 @@ export namespace Prisma {
     readonly roomId: FieldRef<"ChatMessage", 'String'>
     readonly senderId: FieldRef<"ChatMessage", 'String'>
     readonly content: FieldRef<"ChatMessage", 'String'>
+    readonly isDeleted: FieldRef<"ChatMessage", 'Boolean'>
     readonly createdAt: FieldRef<"ChatMessage", 'DateTime'>
     readonly updatedAt: FieldRef<"ChatMessage", 'DateTime'>
   }
@@ -11842,6 +11996,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ReadReceiptScalarFieldEnum | ReadReceiptScalarFieldEnum[]
+  }
+
+  /**
+   * ChatMessage.attachments
+   */
+  export type ChatMessage$attachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    where?: AttachmentWhereInput
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    cursor?: AttachmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
   }
 
   /**
@@ -12904,6 +13082,1110 @@ export namespace Prisma {
 
 
   /**
+   * Model Attachment
+   */
+
+  export type AggregateAttachment = {
+    _count: AttachmentCountAggregateOutputType | null
+    _min: AttachmentMinAggregateOutputType | null
+    _max: AttachmentMaxAggregateOutputType | null
+  }
+
+  export type AttachmentMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    url: string | null
+    messageId: string | null
+    roomId: string | null
+  }
+
+  export type AttachmentMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    url: string | null
+    messageId: string | null
+    roomId: string | null
+  }
+
+  export type AttachmentCountAggregateOutputType = {
+    id: number
+    title: number
+    url: number
+    messageId: number
+    roomId: number
+    _all: number
+  }
+
+
+  export type AttachmentMinAggregateInputType = {
+    id?: true
+    title?: true
+    url?: true
+    messageId?: true
+    roomId?: true
+  }
+
+  export type AttachmentMaxAggregateInputType = {
+    id?: true
+    title?: true
+    url?: true
+    messageId?: true
+    roomId?: true
+  }
+
+  export type AttachmentCountAggregateInputType = {
+    id?: true
+    title?: true
+    url?: true
+    messageId?: true
+    roomId?: true
+    _all?: true
+  }
+
+  export type AttachmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Attachment to aggregate.
+     */
+    where?: AttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attachments to fetch.
+     */
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attachments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Attachments
+    **/
+    _count?: true | AttachmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AttachmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AttachmentMaxAggregateInputType
+  }
+
+  export type GetAttachmentAggregateType<T extends AttachmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateAttachment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAttachment[P]>
+      : GetScalarType<T[P], AggregateAttachment[P]>
+  }
+
+
+
+
+  export type AttachmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttachmentWhereInput
+    orderBy?: AttachmentOrderByWithAggregationInput | AttachmentOrderByWithAggregationInput[]
+    by: AttachmentScalarFieldEnum[] | AttachmentScalarFieldEnum
+    having?: AttachmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AttachmentCountAggregateInputType | true
+    _min?: AttachmentMinAggregateInputType
+    _max?: AttachmentMaxAggregateInputType
+  }
+
+  export type AttachmentGroupByOutputType = {
+    id: string
+    title: string
+    url: string
+    messageId: string | null
+    roomId: string | null
+    _count: AttachmentCountAggregateOutputType | null
+    _min: AttachmentMinAggregateOutputType | null
+    _max: AttachmentMaxAggregateOutputType | null
+  }
+
+  type GetAttachmentGroupByPayload<T extends AttachmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AttachmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AttachmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AttachmentGroupByOutputType[P]>
+            : GetScalarType<T[P], AttachmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AttachmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    url?: boolean
+    messageId?: boolean
+    roomId?: boolean
+    room?: boolean | Attachment$roomArgs<ExtArgs>
+    message?: boolean | Attachment$messageArgs<ExtArgs>
+  }, ExtArgs["result"]["attachment"]>
+
+  export type AttachmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    url?: boolean
+    messageId?: boolean
+    roomId?: boolean
+    room?: boolean | Attachment$roomArgs<ExtArgs>
+    message?: boolean | Attachment$messageArgs<ExtArgs>
+  }, ExtArgs["result"]["attachment"]>
+
+  export type AttachmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    url?: boolean
+    messageId?: boolean
+    roomId?: boolean
+    room?: boolean | Attachment$roomArgs<ExtArgs>
+    message?: boolean | Attachment$messageArgs<ExtArgs>
+  }, ExtArgs["result"]["attachment"]>
+
+  export type AttachmentSelectScalar = {
+    id?: boolean
+    title?: boolean
+    url?: boolean
+    messageId?: boolean
+    roomId?: boolean
+  }
+
+  export type AttachmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "url" | "messageId" | "roomId", ExtArgs["result"]["attachment"]>
+  export type AttachmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    room?: boolean | Attachment$roomArgs<ExtArgs>
+    message?: boolean | Attachment$messageArgs<ExtArgs>
+  }
+  export type AttachmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    room?: boolean | Attachment$roomArgs<ExtArgs>
+    message?: boolean | Attachment$messageArgs<ExtArgs>
+  }
+  export type AttachmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    room?: boolean | Attachment$roomArgs<ExtArgs>
+    message?: boolean | Attachment$messageArgs<ExtArgs>
+  }
+
+  export type $AttachmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Attachment"
+    objects: {
+      room: Prisma.$RoomPayload<ExtArgs> | null
+      message: Prisma.$ChatMessagePayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      url: string
+      messageId: string | null
+      roomId: string | null
+    }, ExtArgs["result"]["attachment"]>
+    composites: {}
+  }
+
+  type AttachmentGetPayload<S extends boolean | null | undefined | AttachmentDefaultArgs> = $Result.GetResult<Prisma.$AttachmentPayload, S>
+
+  type AttachmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AttachmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AttachmentCountAggregateInputType | true
+    }
+
+  export interface AttachmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Attachment'], meta: { name: 'Attachment' } }
+    /**
+     * Find zero or one Attachment that matches the filter.
+     * @param {AttachmentFindUniqueArgs} args - Arguments to find a Attachment
+     * @example
+     * // Get one Attachment
+     * const attachment = await prisma.attachment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AttachmentFindUniqueArgs>(args: SelectSubset<T, AttachmentFindUniqueArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Attachment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AttachmentFindUniqueOrThrowArgs} args - Arguments to find a Attachment
+     * @example
+     * // Get one Attachment
+     * const attachment = await prisma.attachment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AttachmentFindUniqueOrThrowArgs>(args: SelectSubset<T, AttachmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Attachment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentFindFirstArgs} args - Arguments to find a Attachment
+     * @example
+     * // Get one Attachment
+     * const attachment = await prisma.attachment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AttachmentFindFirstArgs>(args?: SelectSubset<T, AttachmentFindFirstArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Attachment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentFindFirstOrThrowArgs} args - Arguments to find a Attachment
+     * @example
+     * // Get one Attachment
+     * const attachment = await prisma.attachment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AttachmentFindFirstOrThrowArgs>(args?: SelectSubset<T, AttachmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Attachments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Attachments
+     * const attachments = await prisma.attachment.findMany()
+     * 
+     * // Get first 10 Attachments
+     * const attachments = await prisma.attachment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const attachmentWithIdOnly = await prisma.attachment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AttachmentFindManyArgs>(args?: SelectSubset<T, AttachmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Attachment.
+     * @param {AttachmentCreateArgs} args - Arguments to create a Attachment.
+     * @example
+     * // Create one Attachment
+     * const Attachment = await prisma.attachment.create({
+     *   data: {
+     *     // ... data to create a Attachment
+     *   }
+     * })
+     * 
+     */
+    create<T extends AttachmentCreateArgs>(args: SelectSubset<T, AttachmentCreateArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Attachments.
+     * @param {AttachmentCreateManyArgs} args - Arguments to create many Attachments.
+     * @example
+     * // Create many Attachments
+     * const attachment = await prisma.attachment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AttachmentCreateManyArgs>(args?: SelectSubset<T, AttachmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Attachments and returns the data saved in the database.
+     * @param {AttachmentCreateManyAndReturnArgs} args - Arguments to create many Attachments.
+     * @example
+     * // Create many Attachments
+     * const attachment = await prisma.attachment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Attachments and only return the `id`
+     * const attachmentWithIdOnly = await prisma.attachment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AttachmentCreateManyAndReturnArgs>(args?: SelectSubset<T, AttachmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Attachment.
+     * @param {AttachmentDeleteArgs} args - Arguments to delete one Attachment.
+     * @example
+     * // Delete one Attachment
+     * const Attachment = await prisma.attachment.delete({
+     *   where: {
+     *     // ... filter to delete one Attachment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AttachmentDeleteArgs>(args: SelectSubset<T, AttachmentDeleteArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Attachment.
+     * @param {AttachmentUpdateArgs} args - Arguments to update one Attachment.
+     * @example
+     * // Update one Attachment
+     * const attachment = await prisma.attachment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AttachmentUpdateArgs>(args: SelectSubset<T, AttachmentUpdateArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Attachments.
+     * @param {AttachmentDeleteManyArgs} args - Arguments to filter Attachments to delete.
+     * @example
+     * // Delete a few Attachments
+     * const { count } = await prisma.attachment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AttachmentDeleteManyArgs>(args?: SelectSubset<T, AttachmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Attachments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Attachments
+     * const attachment = await prisma.attachment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AttachmentUpdateManyArgs>(args: SelectSubset<T, AttachmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Attachments and returns the data updated in the database.
+     * @param {AttachmentUpdateManyAndReturnArgs} args - Arguments to update many Attachments.
+     * @example
+     * // Update many Attachments
+     * const attachment = await prisma.attachment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Attachments and only return the `id`
+     * const attachmentWithIdOnly = await prisma.attachment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AttachmentUpdateManyAndReturnArgs>(args: SelectSubset<T, AttachmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Attachment.
+     * @param {AttachmentUpsertArgs} args - Arguments to update or create a Attachment.
+     * @example
+     * // Update or create a Attachment
+     * const attachment = await prisma.attachment.upsert({
+     *   create: {
+     *     // ... data to create a Attachment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Attachment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AttachmentUpsertArgs>(args: SelectSubset<T, AttachmentUpsertArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Attachments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentCountArgs} args - Arguments to filter Attachments to count.
+     * @example
+     * // Count the number of Attachments
+     * const count = await prisma.attachment.count({
+     *   where: {
+     *     // ... the filter for the Attachments we want to count
+     *   }
+     * })
+    **/
+    count<T extends AttachmentCountArgs>(
+      args?: Subset<T, AttachmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AttachmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Attachment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AttachmentAggregateArgs>(args: Subset<T, AttachmentAggregateArgs>): Prisma.PrismaPromise<GetAttachmentAggregateType<T>>
+
+    /**
+     * Group by Attachment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AttachmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AttachmentGroupByArgs['orderBy'] }
+        : { orderBy?: AttachmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AttachmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAttachmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Attachment model
+   */
+  readonly fields: AttachmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Attachment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AttachmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    room<T extends Attachment$roomArgs<ExtArgs> = {}>(args?: Subset<T, Attachment$roomArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    message<T extends Attachment$messageArgs<ExtArgs> = {}>(args?: Subset<T, Attachment$messageArgs<ExtArgs>>): Prisma__ChatMessageClient<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Attachment model
+   */
+  interface AttachmentFieldRefs {
+    readonly id: FieldRef<"Attachment", 'String'>
+    readonly title: FieldRef<"Attachment", 'String'>
+    readonly url: FieldRef<"Attachment", 'String'>
+    readonly messageId: FieldRef<"Attachment", 'String'>
+    readonly roomId: FieldRef<"Attachment", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Attachment findUnique
+   */
+  export type AttachmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Attachment to fetch.
+     */
+    where: AttachmentWhereUniqueInput
+  }
+
+  /**
+   * Attachment findUniqueOrThrow
+   */
+  export type AttachmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Attachment to fetch.
+     */
+    where: AttachmentWhereUniqueInput
+  }
+
+  /**
+   * Attachment findFirst
+   */
+  export type AttachmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Attachment to fetch.
+     */
+    where?: AttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attachments to fetch.
+     */
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Attachments.
+     */
+    cursor?: AttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attachments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Attachments.
+     */
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * Attachment findFirstOrThrow
+   */
+  export type AttachmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Attachment to fetch.
+     */
+    where?: AttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attachments to fetch.
+     */
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Attachments.
+     */
+    cursor?: AttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attachments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Attachments.
+     */
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * Attachment findMany
+   */
+  export type AttachmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Attachments to fetch.
+     */
+    where?: AttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attachments to fetch.
+     */
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Attachments.
+     */
+    cursor?: AttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attachments.
+     */
+    skip?: number
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * Attachment create
+   */
+  export type AttachmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Attachment.
+     */
+    data: XOR<AttachmentCreateInput, AttachmentUncheckedCreateInput>
+  }
+
+  /**
+   * Attachment createMany
+   */
+  export type AttachmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Attachments.
+     */
+    data: AttachmentCreateManyInput | AttachmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Attachment createManyAndReturn
+   */
+  export type AttachmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many Attachments.
+     */
+    data: AttachmentCreateManyInput | AttachmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Attachment update
+   */
+  export type AttachmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Attachment.
+     */
+    data: XOR<AttachmentUpdateInput, AttachmentUncheckedUpdateInput>
+    /**
+     * Choose, which Attachment to update.
+     */
+    where: AttachmentWhereUniqueInput
+  }
+
+  /**
+   * Attachment updateMany
+   */
+  export type AttachmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Attachments.
+     */
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyInput>
+    /**
+     * Filter which Attachments to update
+     */
+    where?: AttachmentWhereInput
+    /**
+     * Limit how many Attachments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Attachment updateManyAndReturn
+   */
+  export type AttachmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * The data used to update Attachments.
+     */
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyInput>
+    /**
+     * Filter which Attachments to update
+     */
+    where?: AttachmentWhereInput
+    /**
+     * Limit how many Attachments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Attachment upsert
+   */
+  export type AttachmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Attachment to update in case it exists.
+     */
+    where: AttachmentWhereUniqueInput
+    /**
+     * In case the Attachment found by the `where` argument doesn't exist, create a new Attachment with this data.
+     */
+    create: XOR<AttachmentCreateInput, AttachmentUncheckedCreateInput>
+    /**
+     * In case the Attachment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AttachmentUpdateInput, AttachmentUncheckedUpdateInput>
+  }
+
+  /**
+   * Attachment delete
+   */
+  export type AttachmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter which Attachment to delete.
+     */
+    where: AttachmentWhereUniqueInput
+  }
+
+  /**
+   * Attachment deleteMany
+   */
+  export type AttachmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Attachments to delete
+     */
+    where?: AttachmentWhereInput
+    /**
+     * Limit how many Attachments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Attachment.room
+   */
+  export type Attachment$roomArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Room
+     */
+    select?: RoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Room
+     */
+    omit?: RoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomInclude<ExtArgs> | null
+    where?: RoomWhereInput
+  }
+
+  /**
+   * Attachment.message
+   */
+  export type Attachment$messageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatMessage
+     */
+    select?: ChatMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatMessage
+     */
+    omit?: ChatMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatMessageInclude<ExtArgs> | null
+    where?: ChatMessageWhereInput
+  }
+
+  /**
+   * Attachment without action
+   */
+  export type AttachmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -13013,6 +14295,7 @@ export namespace Prisma {
     roomId: 'roomId',
     senderId: 'senderId',
     content: 'content',
+    isDeleted: 'isDeleted',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -13027,6 +14310,17 @@ export namespace Prisma {
   };
 
   export type ReadReceiptScalarFieldEnum = (typeof ReadReceiptScalarFieldEnum)[keyof typeof ReadReceiptScalarFieldEnum]
+
+
+  export const AttachmentScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    url: 'url',
+    messageId: 'messageId',
+    roomId: 'roomId'
+  };
+
+  export type AttachmentScalarFieldEnum = (typeof AttachmentScalarFieldEnum)[keyof typeof AttachmentScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -13590,6 +14884,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Room"> | Date | string
     participants?: ParticipantListRelationFilter
     chatMessages?: ChatMessageListRelationFilter
+    attachments?: AttachmentListRelationFilter
   }
 
   export type RoomOrderByWithRelationInput = {
@@ -13598,6 +14893,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     participants?: ParticipantOrderByRelationAggregateInput
     chatMessages?: ChatMessageOrderByRelationAggregateInput
+    attachments?: AttachmentOrderByRelationAggregateInput
   }
 
   export type RoomWhereUniqueInput = Prisma.AtLeast<{
@@ -13609,6 +14905,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Room"> | Date | string
     participants?: ParticipantListRelationFilter
     chatMessages?: ChatMessageListRelationFilter
+    attachments?: AttachmentListRelationFilter
   }, "id">
 
   export type RoomOrderByWithAggregationInput = {
@@ -13686,11 +14983,13 @@ export namespace Prisma {
     roomId?: StringFilter<"ChatMessage"> | string
     senderId?: StringFilter<"ChatMessage"> | string
     content?: StringFilter<"ChatMessage"> | string
+    isDeleted?: BoolFilter<"ChatMessage"> | boolean
     createdAt?: DateTimeFilter<"ChatMessage"> | Date | string
     updatedAt?: DateTimeNullableFilter<"ChatMessage"> | Date | string | null
     room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     readReceipts?: ReadReceiptListRelationFilter
+    attachments?: AttachmentListRelationFilter
   }
 
   export type ChatMessageOrderByWithRelationInput = {
@@ -13698,11 +14997,13 @@ export namespace Prisma {
     roomId?: SortOrder
     senderId?: SortOrder
     content?: SortOrder
+    isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     room?: RoomOrderByWithRelationInput
     author?: UserOrderByWithRelationInput
     readReceipts?: ReadReceiptOrderByRelationAggregateInput
+    attachments?: AttachmentOrderByRelationAggregateInput
   }
 
   export type ChatMessageWhereUniqueInput = Prisma.AtLeast<{
@@ -13713,11 +15014,13 @@ export namespace Prisma {
     roomId?: StringFilter<"ChatMessage"> | string
     senderId?: StringFilter<"ChatMessage"> | string
     content?: StringFilter<"ChatMessage"> | string
+    isDeleted?: BoolFilter<"ChatMessage"> | boolean
     createdAt?: DateTimeFilter<"ChatMessage"> | Date | string
     updatedAt?: DateTimeNullableFilter<"ChatMessage"> | Date | string | null
     room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     readReceipts?: ReadReceiptListRelationFilter
+    attachments?: AttachmentListRelationFilter
   }, "id">
 
   export type ChatMessageOrderByWithAggregationInput = {
@@ -13725,6 +15028,7 @@ export namespace Prisma {
     roomId?: SortOrder
     senderId?: SortOrder
     content?: SortOrder
+    isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     _count?: ChatMessageCountOrderByAggregateInput
@@ -13740,6 +15044,7 @@ export namespace Prisma {
     roomId?: StringWithAggregatesFilter<"ChatMessage"> | string
     senderId?: StringWithAggregatesFilter<"ChatMessage"> | string
     content?: StringWithAggregatesFilter<"ChatMessage"> | string
+    isDeleted?: BoolWithAggregatesFilter<"ChatMessage"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"ChatMessage"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"ChatMessage"> | Date | string | null
   }
@@ -13791,6 +15096,64 @@ export namespace Prisma {
     messageId?: StringWithAggregatesFilter<"ReadReceipt"> | string
     userId?: StringWithAggregatesFilter<"ReadReceipt"> | string
     readAt?: DateTimeWithAggregatesFilter<"ReadReceipt"> | Date | string
+  }
+
+  export type AttachmentWhereInput = {
+    AND?: AttachmentWhereInput | AttachmentWhereInput[]
+    OR?: AttachmentWhereInput[]
+    NOT?: AttachmentWhereInput | AttachmentWhereInput[]
+    id?: StringFilter<"Attachment"> | string
+    title?: StringFilter<"Attachment"> | string
+    url?: StringFilter<"Attachment"> | string
+    messageId?: StringNullableFilter<"Attachment"> | string | null
+    roomId?: StringNullableFilter<"Attachment"> | string | null
+    room?: XOR<RoomNullableScalarRelationFilter, RoomWhereInput> | null
+    message?: XOR<ChatMessageNullableScalarRelationFilter, ChatMessageWhereInput> | null
+  }
+
+  export type AttachmentOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    messageId?: SortOrderInput | SortOrder
+    roomId?: SortOrderInput | SortOrder
+    room?: RoomOrderByWithRelationInput
+    message?: ChatMessageOrderByWithRelationInput
+  }
+
+  export type AttachmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    title?: string
+    roomId?: string
+    AND?: AttachmentWhereInput | AttachmentWhereInput[]
+    OR?: AttachmentWhereInput[]
+    NOT?: AttachmentWhereInput | AttachmentWhereInput[]
+    url?: StringFilter<"Attachment"> | string
+    messageId?: StringNullableFilter<"Attachment"> | string | null
+    room?: XOR<RoomNullableScalarRelationFilter, RoomWhereInput> | null
+    message?: XOR<ChatMessageNullableScalarRelationFilter, ChatMessageWhereInput> | null
+  }, "id" | "title" | "roomId">
+
+  export type AttachmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    messageId?: SortOrderInput | SortOrder
+    roomId?: SortOrderInput | SortOrder
+    _count?: AttachmentCountOrderByAggregateInput
+    _max?: AttachmentMaxOrderByAggregateInput
+    _min?: AttachmentMinOrderByAggregateInput
+  }
+
+  export type AttachmentScalarWhereWithAggregatesInput = {
+    AND?: AttachmentScalarWhereWithAggregatesInput | AttachmentScalarWhereWithAggregatesInput[]
+    OR?: AttachmentScalarWhereWithAggregatesInput[]
+    NOT?: AttachmentScalarWhereWithAggregatesInput | AttachmentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Attachment"> | string
+    title?: StringWithAggregatesFilter<"Attachment"> | string
+    url?: StringWithAggregatesFilter<"Attachment"> | string
+    messageId?: StringNullableWithAggregatesFilter<"Attachment"> | string | null
+    roomId?: StringNullableWithAggregatesFilter<"Attachment"> | string | null
   }
 
   export type UserCreateInput = {
@@ -14217,6 +15580,7 @@ export namespace Prisma {
     createdAt?: Date | string
     participants?: ParticipantCreateNestedManyWithoutRoomInput
     chatMessages?: ChatMessageCreateNestedManyWithoutRoomInput
+    attachments?: AttachmentCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateInput = {
@@ -14225,6 +15589,7 @@ export namespace Prisma {
     createdAt?: Date | string
     participants?: ParticipantUncheckedCreateNestedManyWithoutRoomInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutRoomInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUpdateInput = {
@@ -14233,6 +15598,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     participants?: ParticipantUpdateManyWithoutRoomNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutRoomNestedInput
+    attachments?: AttachmentUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateInput = {
@@ -14241,6 +15607,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     participants?: ParticipantUncheckedUpdateManyWithoutRoomNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutRoomNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomCreateManyInput = {
@@ -14304,11 +15671,13 @@ export namespace Prisma {
   export type ChatMessageCreateInput = {
     id?: string
     content: string
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
     room: RoomCreateNestedOneWithoutChatMessagesInput
     author: UserCreateNestedOneWithoutChatMessagesInput
     readReceipts?: ReadReceiptCreateNestedManyWithoutMessageInput
+    attachments?: AttachmentCreateNestedManyWithoutMessageInput
   }
 
   export type ChatMessageUncheckedCreateInput = {
@@ -14316,19 +15685,23 @@ export namespace Prisma {
     roomId: string
     senderId: string
     content: string
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
     readReceipts?: ReadReceiptUncheckedCreateNestedManyWithoutMessageInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutMessageInput
   }
 
   export type ChatMessageUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     room?: RoomUpdateOneRequiredWithoutChatMessagesNestedInput
     author?: UserUpdateOneRequiredWithoutChatMessagesNestedInput
     readReceipts?: ReadReceiptUpdateManyWithoutMessageNestedInput
+    attachments?: AttachmentUpdateManyWithoutMessageNestedInput
   }
 
   export type ChatMessageUncheckedUpdateInput = {
@@ -14336,9 +15709,11 @@ export namespace Prisma {
     roomId?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     readReceipts?: ReadReceiptUncheckedUpdateManyWithoutMessageNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutMessageNestedInput
   }
 
   export type ChatMessageCreateManyInput = {
@@ -14346,6 +15721,7 @@ export namespace Prisma {
     roomId: string
     senderId: string
     content: string
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
   }
@@ -14353,6 +15729,7 @@ export namespace Prisma {
   export type ChatMessageUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -14362,6 +15739,7 @@ export namespace Prisma {
     roomId?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -14404,6 +15782,60 @@ export namespace Prisma {
     messageId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttachmentCreateInput = {
+    id?: string
+    title: string
+    url: string
+    room?: RoomCreateNestedOneWithoutAttachmentsInput
+    message?: ChatMessageCreateNestedOneWithoutAttachmentsInput
+  }
+
+  export type AttachmentUncheckedCreateInput = {
+    id?: string
+    title: string
+    url: string
+    messageId?: string | null
+    roomId?: string | null
+  }
+
+  export type AttachmentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    room?: RoomUpdateOneWithoutAttachmentsNestedInput
+    message?: ChatMessageUpdateOneWithoutAttachmentsNestedInput
+  }
+
+  export type AttachmentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AttachmentCreateManyInput = {
+    id?: string
+    title: string
+    url: string
+    messageId?: string | null
+    roomId?: string | null
+  }
+
+  export type AttachmentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AttachmentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -14875,6 +16307,16 @@ export namespace Prisma {
     not?: NestedEnumRoomTypeFilter<$PrismaModel> | $Enums.RoomType
   }
 
+  export type AttachmentListRelationFilter = {
+    every?: AttachmentWhereInput
+    some?: AttachmentWhereInput
+    none?: AttachmentWhereInput
+  }
+
+  export type AttachmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type RoomCountOrderByAggregateInput = {
     id?: SortOrder
     type?: SortOrder
@@ -14936,6 +16378,7 @@ export namespace Prisma {
     roomId?: SortOrder
     senderId?: SortOrder
     content?: SortOrder
+    isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14945,6 +16388,7 @@ export namespace Prisma {
     roomId?: SortOrder
     senderId?: SortOrder
     content?: SortOrder
+    isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14954,6 +16398,7 @@ export namespace Prisma {
     roomId?: SortOrder
     senderId?: SortOrder
     content?: SortOrder
+    isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14984,6 +16429,40 @@ export namespace Prisma {
     messageId?: SortOrder
     userId?: SortOrder
     readAt?: SortOrder
+  }
+
+  export type RoomNullableScalarRelationFilter = {
+    is?: RoomWhereInput | null
+    isNot?: RoomWhereInput | null
+  }
+
+  export type ChatMessageNullableScalarRelationFilter = {
+    is?: ChatMessageWhereInput | null
+    isNot?: ChatMessageWhereInput | null
+  }
+
+  export type AttachmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    messageId?: SortOrder
+    roomId?: SortOrder
+  }
+
+  export type AttachmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    messageId?: SortOrder
+    roomId?: SortOrder
+  }
+
+  export type AttachmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    messageId?: SortOrder
+    roomId?: SortOrder
   }
 
   export type SessionCreateNestedOneWithoutUserInput = {
@@ -15544,6 +17023,13 @@ export namespace Prisma {
     connect?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
   }
 
+  export type AttachmentCreateNestedManyWithoutRoomInput = {
+    create?: XOR<AttachmentCreateWithoutRoomInput, AttachmentUncheckedCreateWithoutRoomInput> | AttachmentCreateWithoutRoomInput[] | AttachmentUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutRoomInput | AttachmentCreateOrConnectWithoutRoomInput[]
+    createMany?: AttachmentCreateManyRoomInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+  }
+
   export type ParticipantUncheckedCreateNestedManyWithoutRoomInput = {
     create?: XOR<ParticipantCreateWithoutRoomInput, ParticipantUncheckedCreateWithoutRoomInput> | ParticipantCreateWithoutRoomInput[] | ParticipantUncheckedCreateWithoutRoomInput[]
     connectOrCreate?: ParticipantCreateOrConnectWithoutRoomInput | ParticipantCreateOrConnectWithoutRoomInput[]
@@ -15556,6 +17042,13 @@ export namespace Prisma {
     connectOrCreate?: ChatMessageCreateOrConnectWithoutRoomInput | ChatMessageCreateOrConnectWithoutRoomInput[]
     createMany?: ChatMessageCreateManyRoomInputEnvelope
     connect?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
+  }
+
+  export type AttachmentUncheckedCreateNestedManyWithoutRoomInput = {
+    create?: XOR<AttachmentCreateWithoutRoomInput, AttachmentUncheckedCreateWithoutRoomInput> | AttachmentCreateWithoutRoomInput[] | AttachmentUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutRoomInput | AttachmentCreateOrConnectWithoutRoomInput[]
+    createMany?: AttachmentCreateManyRoomInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
   }
 
   export type EnumRoomTypeFieldUpdateOperationsInput = {
@@ -15590,6 +17083,20 @@ export namespace Prisma {
     deleteMany?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
   }
 
+  export type AttachmentUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<AttachmentCreateWithoutRoomInput, AttachmentUncheckedCreateWithoutRoomInput> | AttachmentCreateWithoutRoomInput[] | AttachmentUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutRoomInput | AttachmentCreateOrConnectWithoutRoomInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutRoomInput | AttachmentUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: AttachmentCreateManyRoomInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutRoomInput | AttachmentUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutRoomInput | AttachmentUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+  }
+
   export type ParticipantUncheckedUpdateManyWithoutRoomNestedInput = {
     create?: XOR<ParticipantCreateWithoutRoomInput, ParticipantUncheckedCreateWithoutRoomInput> | ParticipantCreateWithoutRoomInput[] | ParticipantUncheckedCreateWithoutRoomInput[]
     connectOrCreate?: ParticipantCreateOrConnectWithoutRoomInput | ParticipantCreateOrConnectWithoutRoomInput[]
@@ -15616,6 +17123,20 @@ export namespace Prisma {
     update?: ChatMessageUpdateWithWhereUniqueWithoutRoomInput | ChatMessageUpdateWithWhereUniqueWithoutRoomInput[]
     updateMany?: ChatMessageUpdateManyWithWhereWithoutRoomInput | ChatMessageUpdateManyWithWhereWithoutRoomInput[]
     deleteMany?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
+  }
+
+  export type AttachmentUncheckedUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<AttachmentCreateWithoutRoomInput, AttachmentUncheckedCreateWithoutRoomInput> | AttachmentCreateWithoutRoomInput[] | AttachmentUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutRoomInput | AttachmentCreateOrConnectWithoutRoomInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutRoomInput | AttachmentUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: AttachmentCreateManyRoomInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutRoomInput | AttachmentUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutRoomInput | AttachmentUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
   }
 
   export type RoomCreateNestedOneWithoutParticipantsInput = {
@@ -15665,11 +17186,25 @@ export namespace Prisma {
     connect?: ReadReceiptWhereUniqueInput | ReadReceiptWhereUniqueInput[]
   }
 
+  export type AttachmentCreateNestedManyWithoutMessageInput = {
+    create?: XOR<AttachmentCreateWithoutMessageInput, AttachmentUncheckedCreateWithoutMessageInput> | AttachmentCreateWithoutMessageInput[] | AttachmentUncheckedCreateWithoutMessageInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutMessageInput | AttachmentCreateOrConnectWithoutMessageInput[]
+    createMany?: AttachmentCreateManyMessageInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+  }
+
   export type ReadReceiptUncheckedCreateNestedManyWithoutMessageInput = {
     create?: XOR<ReadReceiptCreateWithoutMessageInput, ReadReceiptUncheckedCreateWithoutMessageInput> | ReadReceiptCreateWithoutMessageInput[] | ReadReceiptUncheckedCreateWithoutMessageInput[]
     connectOrCreate?: ReadReceiptCreateOrConnectWithoutMessageInput | ReadReceiptCreateOrConnectWithoutMessageInput[]
     createMany?: ReadReceiptCreateManyMessageInputEnvelope
     connect?: ReadReceiptWhereUniqueInput | ReadReceiptWhereUniqueInput[]
+  }
+
+  export type AttachmentUncheckedCreateNestedManyWithoutMessageInput = {
+    create?: XOR<AttachmentCreateWithoutMessageInput, AttachmentUncheckedCreateWithoutMessageInput> | AttachmentCreateWithoutMessageInput[] | AttachmentUncheckedCreateWithoutMessageInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutMessageInput | AttachmentCreateOrConnectWithoutMessageInput[]
+    createMany?: AttachmentCreateManyMessageInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
   }
 
   export type RoomUpdateOneRequiredWithoutChatMessagesNestedInput = {
@@ -15702,6 +17237,20 @@ export namespace Prisma {
     deleteMany?: ReadReceiptScalarWhereInput | ReadReceiptScalarWhereInput[]
   }
 
+  export type AttachmentUpdateManyWithoutMessageNestedInput = {
+    create?: XOR<AttachmentCreateWithoutMessageInput, AttachmentUncheckedCreateWithoutMessageInput> | AttachmentCreateWithoutMessageInput[] | AttachmentUncheckedCreateWithoutMessageInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutMessageInput | AttachmentCreateOrConnectWithoutMessageInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutMessageInput | AttachmentUpsertWithWhereUniqueWithoutMessageInput[]
+    createMany?: AttachmentCreateManyMessageInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutMessageInput | AttachmentUpdateWithWhereUniqueWithoutMessageInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutMessageInput | AttachmentUpdateManyWithWhereWithoutMessageInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+  }
+
   export type ReadReceiptUncheckedUpdateManyWithoutMessageNestedInput = {
     create?: XOR<ReadReceiptCreateWithoutMessageInput, ReadReceiptUncheckedCreateWithoutMessageInput> | ReadReceiptCreateWithoutMessageInput[] | ReadReceiptUncheckedCreateWithoutMessageInput[]
     connectOrCreate?: ReadReceiptCreateOrConnectWithoutMessageInput | ReadReceiptCreateOrConnectWithoutMessageInput[]
@@ -15714,6 +17263,20 @@ export namespace Prisma {
     update?: ReadReceiptUpdateWithWhereUniqueWithoutMessageInput | ReadReceiptUpdateWithWhereUniqueWithoutMessageInput[]
     updateMany?: ReadReceiptUpdateManyWithWhereWithoutMessageInput | ReadReceiptUpdateManyWithWhereWithoutMessageInput[]
     deleteMany?: ReadReceiptScalarWhereInput | ReadReceiptScalarWhereInput[]
+  }
+
+  export type AttachmentUncheckedUpdateManyWithoutMessageNestedInput = {
+    create?: XOR<AttachmentCreateWithoutMessageInput, AttachmentUncheckedCreateWithoutMessageInput> | AttachmentCreateWithoutMessageInput[] | AttachmentUncheckedCreateWithoutMessageInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutMessageInput | AttachmentCreateOrConnectWithoutMessageInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutMessageInput | AttachmentUpsertWithWhereUniqueWithoutMessageInput[]
+    createMany?: AttachmentCreateManyMessageInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutMessageInput | AttachmentUpdateWithWhereUniqueWithoutMessageInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutMessageInput | AttachmentUpdateManyWithWhereWithoutMessageInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutReadReceiptsInput = {
@@ -15742,6 +17305,38 @@ export namespace Prisma {
     upsert?: ChatMessageUpsertWithoutReadReceiptsInput
     connect?: ChatMessageWhereUniqueInput
     update?: XOR<XOR<ChatMessageUpdateToOneWithWhereWithoutReadReceiptsInput, ChatMessageUpdateWithoutReadReceiptsInput>, ChatMessageUncheckedUpdateWithoutReadReceiptsInput>
+  }
+
+  export type RoomCreateNestedOneWithoutAttachmentsInput = {
+    create?: XOR<RoomCreateWithoutAttachmentsInput, RoomUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutAttachmentsInput
+    connect?: RoomWhereUniqueInput
+  }
+
+  export type ChatMessageCreateNestedOneWithoutAttachmentsInput = {
+    create?: XOR<ChatMessageCreateWithoutAttachmentsInput, ChatMessageUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: ChatMessageCreateOrConnectWithoutAttachmentsInput
+    connect?: ChatMessageWhereUniqueInput
+  }
+
+  export type RoomUpdateOneWithoutAttachmentsNestedInput = {
+    create?: XOR<RoomCreateWithoutAttachmentsInput, RoomUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutAttachmentsInput
+    upsert?: RoomUpsertWithoutAttachmentsInput
+    disconnect?: RoomWhereInput | boolean
+    delete?: RoomWhereInput | boolean
+    connect?: RoomWhereUniqueInput
+    update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutAttachmentsInput, RoomUpdateWithoutAttachmentsInput>, RoomUncheckedUpdateWithoutAttachmentsInput>
+  }
+
+  export type ChatMessageUpdateOneWithoutAttachmentsNestedInput = {
+    create?: XOR<ChatMessageCreateWithoutAttachmentsInput, ChatMessageUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: ChatMessageCreateOrConnectWithoutAttachmentsInput
+    upsert?: ChatMessageUpsertWithoutAttachmentsInput
+    disconnect?: ChatMessageWhereInput | boolean
+    delete?: ChatMessageWhereInput | boolean
+    connect?: ChatMessageWhereUniqueInput
+    update?: XOR<XOR<ChatMessageUpdateToOneWithWhereWithoutAttachmentsInput, ChatMessageUpdateWithoutAttachmentsInput>, ChatMessageUncheckedUpdateWithoutAttachmentsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -16166,19 +17761,23 @@ export namespace Prisma {
   export type ChatMessageCreateWithoutAuthorInput = {
     id?: string
     content: string
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
     room: RoomCreateNestedOneWithoutChatMessagesInput
     readReceipts?: ReadReceiptCreateNestedManyWithoutMessageInput
+    attachments?: AttachmentCreateNestedManyWithoutMessageInput
   }
 
   export type ChatMessageUncheckedCreateWithoutAuthorInput = {
     id?: string
     roomId: string
     content: string
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
     readReceipts?: ReadReceiptUncheckedCreateNestedManyWithoutMessageInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutMessageInput
   }
 
   export type ChatMessageCreateOrConnectWithoutAuthorInput = {
@@ -16429,6 +18028,7 @@ export namespace Prisma {
     roomId?: StringFilter<"ChatMessage"> | string
     senderId?: StringFilter<"ChatMessage"> | string
     content?: StringFilter<"ChatMessage"> | string
+    isDeleted?: BoolFilter<"ChatMessage"> | boolean
     createdAt?: DateTimeFilter<"ChatMessage"> | Date | string
     updatedAt?: DateTimeNullableFilter<"ChatMessage"> | Date | string | null
   }
@@ -17209,19 +18809,23 @@ export namespace Prisma {
   export type ChatMessageCreateWithoutRoomInput = {
     id?: string
     content: string
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
     author: UserCreateNestedOneWithoutChatMessagesInput
     readReceipts?: ReadReceiptCreateNestedManyWithoutMessageInput
+    attachments?: AttachmentCreateNestedManyWithoutMessageInput
   }
 
   export type ChatMessageUncheckedCreateWithoutRoomInput = {
     id?: string
     senderId: string
     content: string
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
     readReceipts?: ReadReceiptUncheckedCreateNestedManyWithoutMessageInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutMessageInput
   }
 
   export type ChatMessageCreateOrConnectWithoutRoomInput = {
@@ -17231,6 +18835,30 @@ export namespace Prisma {
 
   export type ChatMessageCreateManyRoomInputEnvelope = {
     data: ChatMessageCreateManyRoomInput | ChatMessageCreateManyRoomInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AttachmentCreateWithoutRoomInput = {
+    id?: string
+    title: string
+    url: string
+    message?: ChatMessageCreateNestedOneWithoutAttachmentsInput
+  }
+
+  export type AttachmentUncheckedCreateWithoutRoomInput = {
+    id?: string
+    title: string
+    url: string
+    messageId?: string | null
+  }
+
+  export type AttachmentCreateOrConnectWithoutRoomInput = {
+    where: AttachmentWhereUniqueInput
+    create: XOR<AttachmentCreateWithoutRoomInput, AttachmentUncheckedCreateWithoutRoomInput>
+  }
+
+  export type AttachmentCreateManyRoomInputEnvelope = {
+    data: AttachmentCreateManyRoomInput | AttachmentCreateManyRoomInput[]
     skipDuplicates?: boolean
   }
 
@@ -17266,11 +18894,39 @@ export namespace Prisma {
     data: XOR<ChatMessageUpdateManyMutationInput, ChatMessageUncheckedUpdateManyWithoutRoomInput>
   }
 
+  export type AttachmentUpsertWithWhereUniqueWithoutRoomInput = {
+    where: AttachmentWhereUniqueInput
+    update: XOR<AttachmentUpdateWithoutRoomInput, AttachmentUncheckedUpdateWithoutRoomInput>
+    create: XOR<AttachmentCreateWithoutRoomInput, AttachmentUncheckedCreateWithoutRoomInput>
+  }
+
+  export type AttachmentUpdateWithWhereUniqueWithoutRoomInput = {
+    where: AttachmentWhereUniqueInput
+    data: XOR<AttachmentUpdateWithoutRoomInput, AttachmentUncheckedUpdateWithoutRoomInput>
+  }
+
+  export type AttachmentUpdateManyWithWhereWithoutRoomInput = {
+    where: AttachmentScalarWhereInput
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyWithoutRoomInput>
+  }
+
+  export type AttachmentScalarWhereInput = {
+    AND?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+    OR?: AttachmentScalarWhereInput[]
+    NOT?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+    id?: StringFilter<"Attachment"> | string
+    title?: StringFilter<"Attachment"> | string
+    url?: StringFilter<"Attachment"> | string
+    messageId?: StringNullableFilter<"Attachment"> | string | null
+    roomId?: StringNullableFilter<"Attachment"> | string | null
+  }
+
   export type RoomCreateWithoutParticipantsInput = {
     id?: string
     type?: $Enums.RoomType
     createdAt?: Date | string
     chatMessages?: ChatMessageCreateNestedManyWithoutRoomInput
+    attachments?: AttachmentCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutParticipantsInput = {
@@ -17278,6 +18934,7 @@ export namespace Prisma {
     type?: $Enums.RoomType
     createdAt?: Date | string
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutRoomInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomCreateOrConnectWithoutParticipantsInput = {
@@ -17350,6 +19007,7 @@ export namespace Prisma {
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chatMessages?: ChatMessageUpdateManyWithoutRoomNestedInput
+    attachments?: AttachmentUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutParticipantsInput = {
@@ -17357,6 +19015,7 @@ export namespace Prisma {
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutRoomNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type UserUpsertWithoutParticipantsInput = {
@@ -17419,6 +19078,7 @@ export namespace Prisma {
     type?: $Enums.RoomType
     createdAt?: Date | string
     participants?: ParticipantCreateNestedManyWithoutRoomInput
+    attachments?: AttachmentCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutChatMessagesInput = {
@@ -17426,6 +19086,7 @@ export namespace Prisma {
     type?: $Enums.RoomType
     createdAt?: Date | string
     participants?: ParticipantUncheckedCreateNestedManyWithoutRoomInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomCreateOrConnectWithoutChatMessagesInput = {
@@ -17502,6 +19163,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AttachmentCreateWithoutMessageInput = {
+    id?: string
+    title: string
+    url: string
+    room?: RoomCreateNestedOneWithoutAttachmentsInput
+  }
+
+  export type AttachmentUncheckedCreateWithoutMessageInput = {
+    id?: string
+    title: string
+    url: string
+    roomId?: string | null
+  }
+
+  export type AttachmentCreateOrConnectWithoutMessageInput = {
+    where: AttachmentWhereUniqueInput
+    create: XOR<AttachmentCreateWithoutMessageInput, AttachmentUncheckedCreateWithoutMessageInput>
+  }
+
+  export type AttachmentCreateManyMessageInputEnvelope = {
+    data: AttachmentCreateManyMessageInput | AttachmentCreateManyMessageInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RoomUpsertWithoutChatMessagesInput = {
     update: XOR<RoomUpdateWithoutChatMessagesInput, RoomUncheckedUpdateWithoutChatMessagesInput>
     create: XOR<RoomCreateWithoutChatMessagesInput, RoomUncheckedCreateWithoutChatMessagesInput>
@@ -17518,6 +19203,7 @@ export namespace Prisma {
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     participants?: ParticipantUpdateManyWithoutRoomNestedInput
+    attachments?: AttachmentUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutChatMessagesInput = {
@@ -17525,6 +19211,7 @@ export namespace Prisma {
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     participants?: ParticipantUncheckedUpdateManyWithoutRoomNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type UserUpsertWithoutChatMessagesInput = {
@@ -17598,6 +19285,22 @@ export namespace Prisma {
     data: XOR<ReadReceiptUpdateManyMutationInput, ReadReceiptUncheckedUpdateManyWithoutMessageInput>
   }
 
+  export type AttachmentUpsertWithWhereUniqueWithoutMessageInput = {
+    where: AttachmentWhereUniqueInput
+    update: XOR<AttachmentUpdateWithoutMessageInput, AttachmentUncheckedUpdateWithoutMessageInput>
+    create: XOR<AttachmentCreateWithoutMessageInput, AttachmentUncheckedCreateWithoutMessageInput>
+  }
+
+  export type AttachmentUpdateWithWhereUniqueWithoutMessageInput = {
+    where: AttachmentWhereUniqueInput
+    data: XOR<AttachmentUpdateWithoutMessageInput, AttachmentUncheckedUpdateWithoutMessageInput>
+  }
+
+  export type AttachmentUpdateManyWithWhereWithoutMessageInput = {
+    where: AttachmentScalarWhereInput
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyWithoutMessageInput>
+  }
+
   export type UserCreateWithoutReadReceiptsInput = {
     id?: string
     name: string
@@ -17650,10 +19353,12 @@ export namespace Prisma {
   export type ChatMessageCreateWithoutReadReceiptsInput = {
     id?: string
     content: string
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
     room: RoomCreateNestedOneWithoutChatMessagesInput
     author: UserCreateNestedOneWithoutChatMessagesInput
+    attachments?: AttachmentCreateNestedManyWithoutMessageInput
   }
 
   export type ChatMessageUncheckedCreateWithoutReadReceiptsInput = {
@@ -17661,8 +19366,10 @@ export namespace Prisma {
     roomId: string
     senderId: string
     content: string
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutMessageInput
   }
 
   export type ChatMessageCreateOrConnectWithoutReadReceiptsInput = {
@@ -17739,10 +19446,12 @@ export namespace Prisma {
   export type ChatMessageUpdateWithoutReadReceiptsInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     room?: RoomUpdateOneRequiredWithoutChatMessagesNestedInput
     author?: UserUpdateOneRequiredWithoutChatMessagesNestedInput
+    attachments?: AttachmentUpdateManyWithoutMessageNestedInput
   }
 
   export type ChatMessageUncheckedUpdateWithoutReadReceiptsInput = {
@@ -17750,8 +19459,118 @@ export namespace Prisma {
     roomId?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attachments?: AttachmentUncheckedUpdateManyWithoutMessageNestedInput
+  }
+
+  export type RoomCreateWithoutAttachmentsInput = {
+    id?: string
+    type?: $Enums.RoomType
+    createdAt?: Date | string
+    participants?: ParticipantCreateNestedManyWithoutRoomInput
+    chatMessages?: ChatMessageCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomUncheckedCreateWithoutAttachmentsInput = {
+    id?: string
+    type?: $Enums.RoomType
+    createdAt?: Date | string
+    participants?: ParticipantUncheckedCreateNestedManyWithoutRoomInput
+    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomCreateOrConnectWithoutAttachmentsInput = {
+    where: RoomWhereUniqueInput
+    create: XOR<RoomCreateWithoutAttachmentsInput, RoomUncheckedCreateWithoutAttachmentsInput>
+  }
+
+  export type ChatMessageCreateWithoutAttachmentsInput = {
+    id?: string
+    content: string
+    isDeleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    room: RoomCreateNestedOneWithoutChatMessagesInput
+    author: UserCreateNestedOneWithoutChatMessagesInput
+    readReceipts?: ReadReceiptCreateNestedManyWithoutMessageInput
+  }
+
+  export type ChatMessageUncheckedCreateWithoutAttachmentsInput = {
+    id?: string
+    roomId: string
+    senderId: string
+    content: string
+    isDeleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    readReceipts?: ReadReceiptUncheckedCreateNestedManyWithoutMessageInput
+  }
+
+  export type ChatMessageCreateOrConnectWithoutAttachmentsInput = {
+    where: ChatMessageWhereUniqueInput
+    create: XOR<ChatMessageCreateWithoutAttachmentsInput, ChatMessageUncheckedCreateWithoutAttachmentsInput>
+  }
+
+  export type RoomUpsertWithoutAttachmentsInput = {
+    update: XOR<RoomUpdateWithoutAttachmentsInput, RoomUncheckedUpdateWithoutAttachmentsInput>
+    create: XOR<RoomCreateWithoutAttachmentsInput, RoomUncheckedCreateWithoutAttachmentsInput>
+    where?: RoomWhereInput
+  }
+
+  export type RoomUpdateToOneWithWhereWithoutAttachmentsInput = {
+    where?: RoomWhereInput
+    data: XOR<RoomUpdateWithoutAttachmentsInput, RoomUncheckedUpdateWithoutAttachmentsInput>
+  }
+
+  export type RoomUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    participants?: ParticipantUpdateManyWithoutRoomNestedInput
+    chatMessages?: ChatMessageUpdateManyWithoutRoomNestedInput
+  }
+
+  export type RoomUncheckedUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    participants?: ParticipantUncheckedUpdateManyWithoutRoomNestedInput
+    chatMessages?: ChatMessageUncheckedUpdateManyWithoutRoomNestedInput
+  }
+
+  export type ChatMessageUpsertWithoutAttachmentsInput = {
+    update: XOR<ChatMessageUpdateWithoutAttachmentsInput, ChatMessageUncheckedUpdateWithoutAttachmentsInput>
+    create: XOR<ChatMessageCreateWithoutAttachmentsInput, ChatMessageUncheckedCreateWithoutAttachmentsInput>
+    where?: ChatMessageWhereInput
+  }
+
+  export type ChatMessageUpdateToOneWithWhereWithoutAttachmentsInput = {
+    where?: ChatMessageWhereInput
+    data: XOR<ChatMessageUpdateWithoutAttachmentsInput, ChatMessageUncheckedUpdateWithoutAttachmentsInput>
+  }
+
+  export type ChatMessageUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    room?: RoomUpdateOneRequiredWithoutChatMessagesNestedInput
+    author?: UserUpdateOneRequiredWithoutChatMessagesNestedInput
+    readReceipts?: ReadReceiptUpdateManyWithoutMessageNestedInput
+  }
+
+  export type ChatMessageUncheckedUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readReceipts?: ReadReceiptUncheckedUpdateManyWithoutMessageNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -17805,6 +19624,7 @@ export namespace Prisma {
     id?: string
     roomId: string
     content: string
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
   }
@@ -17958,25 +19778,30 @@ export namespace Prisma {
   export type ChatMessageUpdateWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     room?: RoomUpdateOneRequiredWithoutChatMessagesNestedInput
     readReceipts?: ReadReceiptUpdateManyWithoutMessageNestedInput
+    attachments?: AttachmentUpdateManyWithoutMessageNestedInput
   }
 
   export type ChatMessageUncheckedUpdateWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
     roomId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     readReceipts?: ReadReceiptUncheckedUpdateManyWithoutMessageNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutMessageNestedInput
   }
 
   export type ChatMessageUncheckedUpdateManyWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
     roomId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -18005,8 +19830,16 @@ export namespace Prisma {
     id?: string
     senderId: string
     content: string
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
+  }
+
+  export type AttachmentCreateManyRoomInput = {
+    id?: string
+    title: string
+    url: string
+    messageId?: string | null
   }
 
   export type ParticipantUpdateWithoutRoomInput = {
@@ -18027,32 +19860,65 @@ export namespace Prisma {
   export type ChatMessageUpdateWithoutRoomInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     author?: UserUpdateOneRequiredWithoutChatMessagesNestedInput
     readReceipts?: ReadReceiptUpdateManyWithoutMessageNestedInput
+    attachments?: AttachmentUpdateManyWithoutMessageNestedInput
   }
 
   export type ChatMessageUncheckedUpdateWithoutRoomInput = {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     readReceipts?: ReadReceiptUncheckedUpdateManyWithoutMessageNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutMessageNestedInput
   }
 
   export type ChatMessageUncheckedUpdateManyWithoutRoomInput = {
     id?: StringFieldUpdateOperationsInput | string
     senderId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AttachmentUpdateWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    message?: ChatMessageUpdateOneWithoutAttachmentsNestedInput
+  }
+
+  export type AttachmentUncheckedUpdateWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AttachmentUncheckedUpdateManyWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ReadReceiptCreateManyMessageInput = {
     userId: string
     readAt?: Date | string
+  }
+
+  export type AttachmentCreateManyMessageInput = {
+    id?: string
+    title: string
+    url: string
+    roomId?: string | null
   }
 
   export type ReadReceiptUpdateWithoutMessageInput = {
@@ -18068,6 +19934,27 @@ export namespace Prisma {
   export type ReadReceiptUncheckedUpdateManyWithoutMessageInput = {
     userId?: StringFieldUpdateOperationsInput | string
     readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttachmentUpdateWithoutMessageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    room?: RoomUpdateOneWithoutAttachmentsNestedInput
+  }
+
+  export type AttachmentUncheckedUpdateWithoutMessageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AttachmentUncheckedUpdateManyWithoutMessageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

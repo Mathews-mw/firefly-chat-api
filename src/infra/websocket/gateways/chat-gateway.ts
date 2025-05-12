@@ -4,7 +4,9 @@ import { FastifyInstance } from 'fastify';
 
 import { authMiddleware } from '@/infra/http/middlewares/auth-middleware';
 import { IClientToServerEvents, IServerToClientEvents } from '@/infra/websocket/chat-types';
+import { EditChatMessageUseCase } from '@/domains/chat/application/features/chat/use-cases/edit-chat-message-use-case';
 import { CreateChatMessageUseCase } from '@/domains/chat/application/features/chat/use-cases/create-chat-message-use-case';
+import { DeleteChatMessageUseCase } from '@/domains/chat/application/features/chat/use-cases/delete-chat-message-use-case';
 import { MarkMessagesAsReadUseCase } from '@/domains/chat/application/features/chat/use-cases/mark-messages-as-read-use-case';
 
 export async function chatGateway(app: FastifyInstance) {
@@ -12,7 +14,9 @@ export async function chatGateway(app: FastifyInstance) {
 	const rooms = new Map<string, Set<WebSocket.WebSocket>>();
 
 	const chatService = container.resolve(CreateChatMessageUseCase);
+	const editChatService = container.resolve(EditChatMessageUseCase);
 	const markAsReadService = container.resolve(MarkMessagesAsReadUseCase);
+	const deleteMessageService = container.resolve(DeleteChatMessageUseCase);
 
 	app.get('/chat/members', { websocket: true, preHandler: [authMiddleware] }, (connection, request) => {
 		const { sub: userId } = request.user;
@@ -92,15 +96,18 @@ export async function chatGateway(app: FastifyInstance) {
 
 				case 'markAsRead': {
 					const { roomId, messageIds } = payload as IClientToServerEvents['markAsRead'];
+					console.log('deve registrar leitura das msg: ', messageIds);
 
 					try {
 						await markAsReadService.execute({ roomId, userId, messageIds });
 
+						// confirmação para quem marcou a leitura da mensagem
 						socket.send(JSON.stringify({ event: 'readConfirmed', payload: { roomId, messageIds } }));
 
+						// notificar todos na sala (inclusive quem leu)
 						broadcast(roomId, 'messageRead', {
 							roomId,
-							userId,
+							readerId: userId,
 							messageIds,
 						});
 					} catch (error: any) {
@@ -130,6 +137,7 @@ export async function chatGateway(app: FastifyInstance) {
 							roomId: chatMessage.roomId.toString(),
 							senderId: chatMessage.senderId.toString(),
 							content: chatMessage.content,
+							isDeleted: false,
 							createdAt: chatMessage.createdAt.toISOString(),
 							author: {
 								id: chatMessage.author.id.toString(),
@@ -139,6 +147,50 @@ export async function chatGateway(app: FastifyInstance) {
 						},
 					});
 
+					break;
+				}
+
+				case 'editMessage': {
+					const { roomId, messageId, content } = payload as IClientToServerEvents['editMessage'];
+
+					const result = await editChatService.execute({ senderId: userId, messageId, content });
+
+					if (result.isFalse()) {
+						throw result.value;
+					}
+
+					const { chatMessage } = result.value;
+
+					broadcast(roomId, 'messageEdited', {
+						roomId,
+						message: {
+							id: chatMessage.id.toString(),
+							roomId: chatMessage.roomId.toString(),
+							senderId: chatMessage.senderId.toString(),
+							content: chatMessage.content,
+							isDeleted: chatMessage.isDeleted,
+							createdAt: chatMessage.createdAt.toISOString(),
+							author: {
+								id: chatMessage.author.id.toString(),
+								name: chatMessage.author.name,
+								avatarUrl: chatMessage.author.avatarUrl,
+							},
+						},
+					});
+
+					break;
+				}
+
+				case 'deleteMessage': {
+					const { roomId, messageId } = payload as IClientToServerEvents['deleteMessage'];
+
+					const result = await deleteMessageService.execute({ senderId: userId, messageId });
+
+					if (result.isFalse()) {
+						throw result.value;
+					}
+
+					broadcast(roomId, 'messageDeleted', { roomId, messageId });
 					break;
 				}
 			}

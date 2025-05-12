@@ -1,5 +1,6 @@
 import { ChatMessage } from '@/domains/chat/models/entities/chat-message';
 import { ICursorParams, ICursorResponse } from '@/core/interfaces/paginating-interfaces';
+import { ChatMessageDetails } from '@/domains/chat/models/entities/value-objects/chat-message-details';
 import { ChatMessageWithAuthor } from '@/domains/chat/models/entities/value-objects/chat-message-with-author';
 
 export interface IChatMessageQuerySearchWithCursor extends ICursorParams {
@@ -17,4 +18,5 @@ export interface IChatMessageRepository {
 	findMany(): Promise<ChatMessage[]>;
 	findManyWithCursor(query: IChatMessageQuerySearchWithCursor): Promise<IChatMessageWithCursorResponse>;
 	findById(id: string): Promise<ChatMessage | null>;
+	findDetails(id: string): Promise<ChatMessageDetails | null>;
 }

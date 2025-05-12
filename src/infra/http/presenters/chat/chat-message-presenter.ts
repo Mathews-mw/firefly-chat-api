@@ -8,6 +8,7 @@ export class ChatMessagePresenter {
 			room_id: data.roomId.toString(),
 			sender_id: data.senderId.toString(),
 			content: data.content,
+			is_deleted: data.isDeleted,
 			created_at: data.createdAt,
 			updated_at: data.updatedAt ?? null,
 		};

@@ -192,6 +192,7 @@ exports.Prisma.ChatMessageScalarFieldEnum = {
   roomId: 'roomId',
   senderId: 'senderId',
   content: 'content',
+  isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -200,6 +201,14 @@ exports.Prisma.ReadReceiptScalarFieldEnum = {
   messageId: 'messageId',
   userId: 'userId',
   readAt: 'readAt'
+};
+
+exports.Prisma.AttachmentScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  url: 'url',
+  messageId: 'messageId',
+  roomId: 'roomId'
 };
 
 exports.Prisma.SortOrder = {
@@ -253,7 +262,8 @@ exports.Prisma.ModelName = {
   Room: 'Room',
   Participant: 'Participant',
   ChatMessage: 'ChatMessage',
-  ReadReceipt: 'ReadReceipt'
+  ReadReceipt: 'ReadReceipt',
+  Attachment: 'Attachment'
 };
 
 /**

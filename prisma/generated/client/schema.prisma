@@ -136,6 +136,7 @@ model Room {
 
   participants Participant[]
   chatMessages ChatMessage[]
+  attachments  Attachment[]
 
   @@index([type])
   @@map("rooms")
@@ -158,6 +159,7 @@ model ChatMessage {
   roomId    String    @map("room_id")
   senderId  String    @map("sender_id")
   content   String
+  isDeleted Boolean   @default(false) @map("is_deleted")
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @map("updated_at")
 
@@ -165,6 +167,7 @@ model ChatMessage {
   author User @relation(fields: [senderId], references: [id])
 
   readReceipts ReadReceipt[]
+  attachments  Attachment[]
 
   @@index([roomId, createdAt])
   @@map("chat_messages")
@@ -181,4 +184,18 @@ model ReadReceipt {
   @@id([messageId, userId])
   @@index([userId, readAt])
   @@map("read_receipts")
+}
+
+model Attachment {
+  id        String  @id @default(uuid())
+  title     String  @unique
+  url       String
+  messageId String? @map("message_id")
+  roomId    String? @unique @map("room_id")
+
+  room    Room?        @relation(fields: [roomId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  message ChatMessage? @relation(fields: [messageId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@index([roomId])
+  @@map("attachments")
 }

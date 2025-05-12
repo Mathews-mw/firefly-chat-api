@@ -30,7 +30,7 @@ export class Room extends Entity<IRoomProps> {
 		const room = new Room(
 			{
 				...props,
-				createdAt: new Date(),
+				createdAt: props.createdAt ?? new Date(),
 				type: props.type ?? 'PRIVATE',
 			},
 			id

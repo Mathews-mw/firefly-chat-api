@@ -32,7 +32,7 @@ export class ReadReceipt extends Entity<IReadReceiptProps> {
 	static create(props: Optional<IReadReceiptProps, 'readAt'>) {
 		const readReceipt = new ReadReceipt({
 			...props,
-			readAt: new Date(),
+			readAt: props.readAt ?? new Date(),
 		});
 
 		return readReceipt;

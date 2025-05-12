@@ -1,16 +1,18 @@
 import { User } from '../user';
+import { Room } from '../room';
 import { ReadReceipt } from '../read-receipt';
 import { IChatMessageProps } from '../chat-message';
 import { ValueObject } from '@/core/entities/value-object';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
 
-export interface IChatMessageWithAuthorProps extends IChatMessageProps {
+export interface IChatMessageDetailsProps extends IChatMessageProps {
 	id: UniqueEntityId;
 	author: User;
+	room: Room;
 	readReceipts: Array<ReadReceipt>;
 }
 
-export class ChatMessageWithAuthor extends ValueObject<IChatMessageWithAuthorProps> {
+export class ChatMessageDetails extends ValueObject<IChatMessageDetailsProps> {
 	get id() {
 		return this.props.id;
 	}
@@ -27,12 +29,12 @@ export class ChatMessageWithAuthor extends ValueObject<IChatMessageWithAuthorPro
 		return this.props.content;
 	}
 
-	get createdAt() {
-		return this.props.createdAt;
-	}
-
 	get isDeleted() {
 		return this.props.isDeleted;
+	}
+
+	get createdAt() {
+		return this.props.createdAt;
 	}
 
 	get updatedAt() {
@@ -43,13 +45,17 @@ export class ChatMessageWithAuthor extends ValueObject<IChatMessageWithAuthorPro
 		return this.props.author;
 	}
 
+	get room() {
+		return this.props.room;
+	}
+
 	get readReceipts() {
 		return this.props.readReceipts;
 	}
 
-	static create(props: IChatMessageWithAuthorProps) {
-		const chatMessageWithAuthor = new ChatMessageWithAuthor(props);
+	static create(props: IChatMessageDetailsProps) {
+		const chatMessageDetails = new ChatMessageDetails(props);
 
-		return chatMessageWithAuthor;
+		return chatMessageDetails;
 	}
 }

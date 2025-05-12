@@ -1,3 +1,4 @@
+import { HTTPError } from 'ky';
 import { ZodError } from 'zod';
 import { FastifyInstance } from 'fastify/types/instance';
 import { hasZodFastifySchemaValidationErrors } from 'fastify-type-provider-zod';
@@ -6,12 +7,11 @@ import { ForbiddenError } from '@/core/errors/forbidden-error';
 import { BadRequestError } from '@/core/errors/bad-request-errors';
 import { UnauthorizedError } from '@/core/errors/unauthorized-error';
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error';
-import { HTTPError } from 'ky';
 
 type FastifyErrorHandler = FastifyInstance['errorHandler'];
 
 export const errorHandler: FastifyErrorHandler = async (error, request, reply) => {
-	// const { FilesLimitError } = request.server.multipartErrors;
+	const { FilesLimitError } = request.server.multipartErrors;
 
 	if (error instanceof ZodError) {
 		return reply.status(400).send({
@@ -55,12 +55,12 @@ export const errorHandler: FastifyErrorHandler = async (error, request, reply) =
 		});
 	}
 
-	// if (error instanceof FilesLimitError) {
-	// 	return reply.status(error.statusCode ?? 400).send({
-	// 		code: error.code,
-	// 		message: error.message,
-	// 	});
-	// }
+	if (error instanceof FilesLimitError) {
+		return reply.status(error.statusCode ?? 400).send({
+			code: error.code,
+			message: error.message,
+		});
+	}
 
 	if (error instanceof HTTPError) {
 		if (error.response.url.includes('googleapis')) {

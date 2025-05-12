@@ -5,6 +5,7 @@ export const chatMessageSchema = z.object({
 	room_id: z.string().uuid(),
 	sender_id: z.string().uuid(),
 	content: z.string(),
+	is_deleted: z.coerce.boolean(),
 	created_at: z.coerce.date(),
 	updated_at: z.optional(z.coerce.date()).nullable(),
 });
