@@ -5,6 +5,7 @@ import { userSchema } from '../user/user-schema';
 import { FastifySchema } from 'fastify/types/schema';
 import { participantSchema } from './participant-schema';
 import { chatMessageSchema } from './chat-message-schema';
+import { attachmentSchema } from '../attachment/attachment-schema';
 import { cursorQuerySchema, cursorResponseSchema } from '../pagination-schema';
 
 const querySchema = cursorQuerySchema;
@@ -21,6 +22,7 @@ const responseSchema = z.object({
 			chat_messages: z.array(
 				chatMessageSchema.extend({
 					author: userSchema,
+					attachments: z.array(attachmentSchema),
 				})
 			),
 		})

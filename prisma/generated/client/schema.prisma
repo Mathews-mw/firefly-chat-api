@@ -186,12 +186,21 @@ model ReadReceipt {
   @@map("read_receipts")
 }
 
+enum AttachmentType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+  FILE
+  AUDIO
+}
+
 model Attachment {
-  id        String  @id @default(uuid())
-  title     String  @unique
+  id        String         @id @default(uuid())
+  title     String         @unique
   url       String
-  messageId String? @map("message_id")
-  roomId    String? @unique @map("room_id")
+  type      AttachmentType
+  messageId String?        @map("message_id")
+  roomId    String?        @map("room_id")
 
   room    Room?        @relation(fields: [roomId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   message ChatMessage? @relation(fields: [messageId], references: [id], onUpdate: Cascade, onDelete: Cascade)

@@ -114,6 +114,17 @@ export const RoomType: {
 
 export type RoomType = (typeof RoomType)[keyof typeof RoomType]
 
+
+export const AttachmentType: {
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO',
+  DOCUMENT: 'DOCUMENT',
+  FILE: 'FILE',
+  AUDIO: 'AUDIO'
+};
+
+export type AttachmentType = (typeof AttachmentType)[keyof typeof AttachmentType]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -135,6 +146,10 @@ export const InvitationStatus: typeof $Enums.InvitationStatus
 export type RoomType = $Enums.RoomType
 
 export const RoomType: typeof $Enums.RoomType
+
+export type AttachmentType = $Enums.AttachmentType
+
+export const AttachmentType: typeof $Enums.AttachmentType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -13095,6 +13110,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     url: string | null
+    type: $Enums.AttachmentType | null
     messageId: string | null
     roomId: string | null
   }
@@ -13103,6 +13119,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     url: string | null
+    type: $Enums.AttachmentType | null
     messageId: string | null
     roomId: string | null
   }
@@ -13111,6 +13128,7 @@ export namespace Prisma {
     id: number
     title: number
     url: number
+    type: number
     messageId: number
     roomId: number
     _all: number
@@ -13121,6 +13139,7 @@ export namespace Prisma {
     id?: true
     title?: true
     url?: true
+    type?: true
     messageId?: true
     roomId?: true
   }
@@ -13129,6 +13148,7 @@ export namespace Prisma {
     id?: true
     title?: true
     url?: true
+    type?: true
     messageId?: true
     roomId?: true
   }
@@ -13137,6 +13157,7 @@ export namespace Prisma {
     id?: true
     title?: true
     url?: true
+    type?: true
     messageId?: true
     roomId?: true
     _all?: true
@@ -13218,6 +13239,7 @@ export namespace Prisma {
     id: string
     title: string
     url: string
+    type: $Enums.AttachmentType
     messageId: string | null
     roomId: string | null
     _count: AttachmentCountAggregateOutputType | null
@@ -13243,6 +13265,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     url?: boolean
+    type?: boolean
     messageId?: boolean
     roomId?: boolean
     room?: boolean | Attachment$roomArgs<ExtArgs>
@@ -13253,6 +13276,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     url?: boolean
+    type?: boolean
     messageId?: boolean
     roomId?: boolean
     room?: boolean | Attachment$roomArgs<ExtArgs>
@@ -13263,6 +13287,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     url?: boolean
+    type?: boolean
     messageId?: boolean
     roomId?: boolean
     room?: boolean | Attachment$roomArgs<ExtArgs>
@@ -13273,11 +13298,12 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     url?: boolean
+    type?: boolean
     messageId?: boolean
     roomId?: boolean
   }
 
-  export type AttachmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "url" | "messageId" | "roomId", ExtArgs["result"]["attachment"]>
+  export type AttachmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "url" | "type" | "messageId" | "roomId", ExtArgs["result"]["attachment"]>
   export type AttachmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     room?: boolean | Attachment$roomArgs<ExtArgs>
     message?: boolean | Attachment$messageArgs<ExtArgs>
@@ -13301,6 +13327,7 @@ export namespace Prisma {
       id: string
       title: string
       url: string
+      type: $Enums.AttachmentType
       messageId: string | null
       roomId: string | null
     }, ExtArgs["result"]["attachment"]>
@@ -13731,6 +13758,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Attachment", 'String'>
     readonly title: FieldRef<"Attachment", 'String'>
     readonly url: FieldRef<"Attachment", 'String'>
+    readonly type: FieldRef<"Attachment", 'AttachmentType'>
     readonly messageId: FieldRef<"Attachment", 'String'>
     readonly roomId: FieldRef<"Attachment", 'String'>
   }
@@ -14316,6 +14344,7 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     url: 'url',
+    type: 'type',
     messageId: 'messageId',
     roomId: 'roomId'
   };
@@ -14454,6 +14483,20 @@ export namespace Prisma {
    * Reference to a field of type 'RoomType[]'
    */
   export type ListEnumRoomTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoomType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AttachmentType'
+   */
+  export type EnumAttachmentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttachmentType'>
+    
+
+
+  /**
+   * Reference to a field of type 'AttachmentType[]'
+   */
+  export type ListEnumAttachmentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttachmentType[]'>
     
 
 
@@ -15105,6 +15148,7 @@ export namespace Prisma {
     id?: StringFilter<"Attachment"> | string
     title?: StringFilter<"Attachment"> | string
     url?: StringFilter<"Attachment"> | string
+    type?: EnumAttachmentTypeFilter<"Attachment"> | $Enums.AttachmentType
     messageId?: StringNullableFilter<"Attachment"> | string | null
     roomId?: StringNullableFilter<"Attachment"> | string | null
     room?: XOR<RoomNullableScalarRelationFilter, RoomWhereInput> | null
@@ -15115,6 +15159,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     url?: SortOrder
+    type?: SortOrder
     messageId?: SortOrderInput | SortOrder
     roomId?: SortOrderInput | SortOrder
     room?: RoomOrderByWithRelationInput
@@ -15124,20 +15169,22 @@ export namespace Prisma {
   export type AttachmentWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     title?: string
-    roomId?: string
     AND?: AttachmentWhereInput | AttachmentWhereInput[]
     OR?: AttachmentWhereInput[]
     NOT?: AttachmentWhereInput | AttachmentWhereInput[]
     url?: StringFilter<"Attachment"> | string
+    type?: EnumAttachmentTypeFilter<"Attachment"> | $Enums.AttachmentType
     messageId?: StringNullableFilter<"Attachment"> | string | null
+    roomId?: StringNullableFilter<"Attachment"> | string | null
     room?: XOR<RoomNullableScalarRelationFilter, RoomWhereInput> | null
     message?: XOR<ChatMessageNullableScalarRelationFilter, ChatMessageWhereInput> | null
-  }, "id" | "title" | "roomId">
+  }, "id" | "title">
 
   export type AttachmentOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
     url?: SortOrder
+    type?: SortOrder
     messageId?: SortOrderInput | SortOrder
     roomId?: SortOrderInput | SortOrder
     _count?: AttachmentCountOrderByAggregateInput
@@ -15152,6 +15199,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Attachment"> | string
     title?: StringWithAggregatesFilter<"Attachment"> | string
     url?: StringWithAggregatesFilter<"Attachment"> | string
+    type?: EnumAttachmentTypeWithAggregatesFilter<"Attachment"> | $Enums.AttachmentType
     messageId?: StringNullableWithAggregatesFilter<"Attachment"> | string | null
     roomId?: StringNullableWithAggregatesFilter<"Attachment"> | string | null
   }
@@ -15788,6 +15836,7 @@ export namespace Prisma {
     id?: string
     title: string
     url: string
+    type: $Enums.AttachmentType
     room?: RoomCreateNestedOneWithoutAttachmentsInput
     message?: ChatMessageCreateNestedOneWithoutAttachmentsInput
   }
@@ -15796,6 +15845,7 @@ export namespace Prisma {
     id?: string
     title: string
     url: string
+    type: $Enums.AttachmentType
     messageId?: string | null
     roomId?: string | null
   }
@@ -15804,6 +15854,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
     room?: RoomUpdateOneWithoutAttachmentsNestedInput
     message?: ChatMessageUpdateOneWithoutAttachmentsNestedInput
   }
@@ -15812,6 +15863,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
     roomId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -15820,6 +15872,7 @@ export namespace Prisma {
     id?: string
     title: string
     url: string
+    type: $Enums.AttachmentType
     messageId?: string | null
     roomId?: string | null
   }
@@ -15828,12 +15881,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
   }
 
   export type AttachmentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
     roomId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -16431,6 +16486,13 @@ export namespace Prisma {
     readAt?: SortOrder
   }
 
+  export type EnumAttachmentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttachmentType | EnumAttachmentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttachmentType[] | ListEnumAttachmentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttachmentType[] | ListEnumAttachmentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttachmentTypeFilter<$PrismaModel> | $Enums.AttachmentType
+  }
+
   export type RoomNullableScalarRelationFilter = {
     is?: RoomWhereInput | null
     isNot?: RoomWhereInput | null
@@ -16445,6 +16507,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     url?: SortOrder
+    type?: SortOrder
     messageId?: SortOrder
     roomId?: SortOrder
   }
@@ -16453,6 +16516,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     url?: SortOrder
+    type?: SortOrder
     messageId?: SortOrder
     roomId?: SortOrder
   }
@@ -16461,8 +16525,19 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     url?: SortOrder
+    type?: SortOrder
     messageId?: SortOrder
     roomId?: SortOrder
+  }
+
+  export type EnumAttachmentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttachmentType | EnumAttachmentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttachmentType[] | ListEnumAttachmentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttachmentType[] | ListEnumAttachmentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttachmentTypeWithAggregatesFilter<$PrismaModel> | $Enums.AttachmentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttachmentTypeFilter<$PrismaModel>
+    _max?: NestedEnumAttachmentTypeFilter<$PrismaModel>
   }
 
   export type SessionCreateNestedOneWithoutUserInput = {
@@ -17319,6 +17394,10 @@ export namespace Prisma {
     connect?: ChatMessageWhereUniqueInput
   }
 
+  export type EnumAttachmentTypeFieldUpdateOperationsInput = {
+    set?: $Enums.AttachmentType
+  }
+
   export type RoomUpdateOneWithoutAttachmentsNestedInput = {
     create?: XOR<RoomCreateWithoutAttachmentsInput, RoomUncheckedCreateWithoutAttachmentsInput>
     connectOrCreate?: RoomCreateOrConnectWithoutAttachmentsInput
@@ -17569,6 +17648,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoomTypeFilter<$PrismaModel>
     _max?: NestedEnumRoomTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAttachmentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttachmentType | EnumAttachmentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttachmentType[] | ListEnumAttachmentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttachmentType[] | ListEnumAttachmentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttachmentTypeFilter<$PrismaModel> | $Enums.AttachmentType
+  }
+
+  export type NestedEnumAttachmentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttachmentType | EnumAttachmentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttachmentType[] | ListEnumAttachmentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttachmentType[] | ListEnumAttachmentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttachmentTypeWithAggregatesFilter<$PrismaModel> | $Enums.AttachmentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttachmentTypeFilter<$PrismaModel>
+    _max?: NestedEnumAttachmentTypeFilter<$PrismaModel>
   }
 
   export type SessionCreateWithoutUserInput = {
@@ -18842,6 +18938,7 @@ export namespace Prisma {
     id?: string
     title: string
     url: string
+    type: $Enums.AttachmentType
     message?: ChatMessageCreateNestedOneWithoutAttachmentsInput
   }
 
@@ -18849,6 +18946,7 @@ export namespace Prisma {
     id?: string
     title: string
     url: string
+    type: $Enums.AttachmentType
     messageId?: string | null
   }
 
@@ -18917,6 +19015,7 @@ export namespace Prisma {
     id?: StringFilter<"Attachment"> | string
     title?: StringFilter<"Attachment"> | string
     url?: StringFilter<"Attachment"> | string
+    type?: EnumAttachmentTypeFilter<"Attachment"> | $Enums.AttachmentType
     messageId?: StringNullableFilter<"Attachment"> | string | null
     roomId?: StringNullableFilter<"Attachment"> | string | null
   }
@@ -19167,6 +19266,7 @@ export namespace Prisma {
     id?: string
     title: string
     url: string
+    type: $Enums.AttachmentType
     room?: RoomCreateNestedOneWithoutAttachmentsInput
   }
 
@@ -19174,6 +19274,7 @@ export namespace Prisma {
     id?: string
     title: string
     url: string
+    type: $Enums.AttachmentType
     roomId?: string | null
   }
 
@@ -19839,6 +19940,7 @@ export namespace Prisma {
     id?: string
     title: string
     url: string
+    type: $Enums.AttachmentType
     messageId?: string | null
   }
 
@@ -19892,6 +19994,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
     message?: ChatMessageUpdateOneWithoutAttachmentsNestedInput
   }
 
@@ -19899,6 +20002,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -19906,6 +20010,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -19918,6 +20023,7 @@ export namespace Prisma {
     id?: string
     title: string
     url: string
+    type: $Enums.AttachmentType
     roomId?: string | null
   }
 
@@ -19940,6 +20046,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
     room?: RoomUpdateOneWithoutAttachmentsNestedInput
   }
 
@@ -19947,6 +20054,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
     roomId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -19954,6 +20062,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
     roomId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 

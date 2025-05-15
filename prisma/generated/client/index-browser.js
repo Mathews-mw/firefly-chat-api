@@ -207,6 +207,7 @@ exports.Prisma.AttachmentScalarFieldEnum = {
   id: 'id',
   title: 'title',
   url: 'url',
+  type: 'type',
   messageId: 'messageId',
   roomId: 'roomId'
 };
@@ -250,6 +251,14 @@ exports.InvitationStatus = exports.$Enums.InvitationStatus = {
 exports.RoomType = exports.$Enums.RoomType = {
   PRIVATE: 'PRIVATE',
   GROUP: 'GROUP'
+};
+
+exports.AttachmentType = exports.$Enums.AttachmentType = {
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO',
+  DOCUMENT: 'DOCUMENT',
+  FILE: 'FILE',
+  AUDIO: 'AUDIO'
 };
 
 exports.Prisma.ModelName = {

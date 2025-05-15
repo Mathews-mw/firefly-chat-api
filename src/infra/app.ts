@@ -29,7 +29,11 @@ app.setValidatorCompiler(validatorCompiler);
 
 app.register(fastifyWebsocket);
 
-app.register(fastifyMultipart);
+app.register(fastifyMultipart, {
+	limits: {
+		fileSize: 1024 * 1000 * 120, //120mb
+	},
+});
 
 app.register(fastifySwagger, {
 	openapi: {

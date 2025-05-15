@@ -3,11 +3,13 @@ import { ReadReceipt } from '../read-receipt';
 import { IChatMessageProps } from '../chat-message';
 import { ValueObject } from '@/core/entities/value-object';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
+import { Attachment } from '../attachment';
 
 export interface IChatMessageWithAuthorProps extends IChatMessageProps {
 	id: UniqueEntityId;
 	author: User;
 	readReceipts: Array<ReadReceipt>;
+	attachments: Array<Attachment>;
 }
 
 export class ChatMessageWithAuthor extends ValueObject<IChatMessageWithAuthorProps> {
@@ -45,6 +47,10 @@ export class ChatMessageWithAuthor extends ValueObject<IChatMessageWithAuthorPro
 
 	get readReceipts() {
 		return this.props.readReceipts;
+	}
+
+	get attachments() {
+		return this.props.attachments;
 	}
 
 	static create(props: IChatMessageWithAuthorProps) {

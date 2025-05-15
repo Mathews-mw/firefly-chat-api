@@ -1,19 +1,22 @@
-import { ChatMessageDetails } from '@/domains/chat/models/entities/value-objects/chat-message-details';
+import { RoomMapper } from './room-mapper';
 import { UserMapper } from '../user/user-mapper';
 import { ReadReceiptMapper } from './read-receipt-mapper';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
+import { AttachmentMapper } from '../attachment/attachment-mapper';
+import { ChatMessageDetails } from '@/domains/chat/models/entities/value-objects/chat-message-details';
 import {
+	Attachment as PrismaAttachment,
 	ChatMessage as PrismaChatMessage,
 	User as PrismaUser,
 	Room as PrismaRoom,
 	ReadReceipt as PrismaReadReceipt,
 } from 'prisma/generated/client';
-import { RoomMapper } from './room-mapper';
 
 export type IPrismaChatMessageDetails = PrismaChatMessage & {
 	author: PrismaUser;
 	readReceipts: Array<PrismaReadReceipt>;
 	room: PrismaRoom;
+	attachments: Array<PrismaAttachment>;
 };
 
 export class ChatMessageDetailsMapper {
@@ -29,6 +32,7 @@ export class ChatMessageDetailsMapper {
 			author: UserMapper.toDomain(data.author),
 			readReceipts: data.readReceipts.map(ReadReceiptMapper.toDomain),
 			room: RoomMapper.toDomain(data.room),
+			attachments: data.attachments.map(AttachmentMapper.toDomain),
 		});
 	}
 }

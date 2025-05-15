@@ -30,6 +30,7 @@ export async function uploadChatAttachmentsController(request: FastifyRequest, r
 
 		const result = await service.execute({
 			fileName: uniqueFilename,
+			fileType: part.mimetype,
 		});
 
 		if (result.isFalse()) {

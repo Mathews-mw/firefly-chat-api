@@ -1,11 +1,23 @@
 import { Entity } from '@/core/entities/entity';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
+import { z } from 'zod';
+
+export const attachmentTypeSchema = z.union([
+	z.literal('IMAGE'),
+	z.literal('VIDEO'),
+	z.literal('DOCUMENT'),
+	z.literal('FILE'),
+	z.literal('AUDIO'),
+]);
+
+export type AttachmentType = z.infer<typeof attachmentTypeSchema>;
 
 export interface IAttachmentProps {
 	title: string;
 	url: string;
 	messageId?: UniqueEntityId | null;
 	roomId?: UniqueEntityId | null;
+	type: AttachmentType;
 }
 
 export class Attachment extends Entity<IAttachmentProps> {
@@ -39,6 +51,14 @@ export class Attachment extends Entity<IAttachmentProps> {
 
 	set roomId(roomId: UniqueEntityId | undefined | null) {
 		this.props.roomId = roomId;
+	}
+
+	get type() {
+		return this.props.type;
+	}
+
+	set type(type: AttachmentType) {
+		this.props.type = type;
 	}
 
 	static create(props: IAttachmentProps, id?: UniqueEntityId) {

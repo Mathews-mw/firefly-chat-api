@@ -1,12 +1,14 @@
 import { prisma } from '../prisma';
 import { RoomMapper } from '../mappers/chat/room-mapper';
 import { Room } from '@/domains/chat/models/entities/room';
+import { RoomDetailsMapper } from '../mappers/chat/room-details-mapper';
 import { RoomWithParticipantsMapper } from '../mappers/chat/room-with-participants-mapper';
+import { RoomWithParticipants } from '@/domains/chat/models/entities/value-objects/room-with-participants';
 import {
 	IFindUniqueParams,
 	IRoomRepository,
-	IFindDetailsParams,
 	IFindManyRoomsByUserSearchCursor,
+	IWithParticipantsParams,
 } from '@/domains/chat/application/features/chat/repositories/room-repository';
 
 export class PrismaRoomsRepository implements IRoomRepository {
@@ -62,6 +64,7 @@ export class PrismaRoomsRepository implements IRoomRepository {
 					include: {
 						author: true,
 						readReceipts: true,
+						attachments: true,
 					},
 					take: 1,
 					orderBy: {
@@ -117,7 +120,30 @@ export class PrismaRoomsRepository implements IRoomRepository {
 		return RoomMapper.toDomain(room);
 	}
 
-	async findDetails({ roomId, type, userId }: IFindDetailsParams) {
+	async findDetails(id: string, isPrivate?: boolean) {
+		const room = await prisma.room.findUnique({
+			where: {
+				id,
+				type: isPrivate ? 'PRIVATE' : 'GROUP',
+			},
+			include: {
+				participants: {
+					include: {
+						user: true,
+					},
+				},
+				attachments: true,
+			},
+		});
+
+		if (!room) {
+			return null;
+		}
+
+		return RoomDetailsMapper.toDomain(room);
+	}
+
+	async findWithParticipants({ roomId, type, userId }: IWithParticipantsParams): Promise<RoomWithParticipants | null> {
 		const room = await prisma.room.findUnique({
 			where: {
 				id: roomId,
@@ -132,6 +158,7 @@ export class PrismaRoomsRepository implements IRoomRepository {
 					include: {
 						author: true,
 						readReceipts: true,
+						attachments: true,
 					},
 					take: 1,
 					orderBy: {
@@ -170,6 +197,7 @@ export class PrismaRoomsRepository implements IRoomRepository {
 					include: {
 						author: true,
 						readReceipts: true,
+						attachments: true,
 					},
 					take: 1,
 					orderBy: {

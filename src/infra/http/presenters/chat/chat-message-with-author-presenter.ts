@@ -1,5 +1,6 @@
 import { UserPresenter } from '../users/user-presenter';
 import { ReadReceiptPresenter } from './read-receipt-presenter';
+import { AttachmentPresenter } from '../attachments/attachment-presenter';
 import { ChatMessageWithAuthor } from '@/domains/chat/models/entities/value-objects/chat-message-with-author';
 
 export class ChatMessageWithAuthorPresenter {
@@ -14,6 +15,7 @@ export class ChatMessageWithAuthorPresenter {
 			updated_at: data.updatedAt ?? null,
 			author: UserPresenter.toHTTP(data.author),
 			read_receipts: data.readReceipts.map(ReadReceiptPresenter.toHTTP),
+			attachments: data.attachments.map(AttachmentPresenter.toHTTP),
 		};
 	}
 }

@@ -10,6 +10,7 @@ export class AttachmentMapper {
 				url: data.url,
 				messageId: data.messageId ? new UniqueEntityId(data.messageId) : null,
 				roomId: data.roomId ? new UniqueEntityId(data.roomId) : null,
+				type: data.type,
 			},
 			new UniqueEntityId(data.id)
 		);
@@ -22,6 +23,7 @@ export class AttachmentMapper {
 			url: data.url,
 			messageId: data.messageId ? data.messageId.toString() : null,
 			roomId: data.roomId ? data.roomId.toString() : null,
+			type: data.type,
 		};
 	}
 }

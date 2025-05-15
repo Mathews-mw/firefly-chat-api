@@ -1,4 +1,5 @@
 import { Room, RoomType } from '@/domains/chat/models/entities/room';
+import { RoomDetails } from '@/domains/chat/models/entities/value-objects/room-details';
 import { ICursorParams, ICursorResponse } from '@/core/interfaces/paginating-interfaces';
 import { RoomWithParticipants } from '@/domains/chat/models/entities/value-objects/room-with-participants';
 
@@ -6,7 +7,7 @@ export interface IRoomQuerySearch {
 	search?: string;
 }
 
-export interface IFindDetailsParams {
+export interface IWithParticipantsParams {
 	roomId: string;
 	type: RoomType;
 	userId?: string;
@@ -32,7 +33,8 @@ export interface IRoomRepository {
 	findMany(query: IRoomQuerySearch): Promise<Array<Room>>;
 	findManyByUser(params: IFindManyRoomsByUserSearchCursor): Promise<IFindManyRoomsCursorResponse>;
 	findById(id: string): Promise<Room | null>;
-	findDetails(params: IFindDetailsParams): Promise<RoomWithParticipants | null>;
+	findWithParticipants(params: IWithParticipantsParams): Promise<RoomWithParticipants | null>;
+	findDetails(id: string, isPrivate?: boolean): Promise<RoomDetails | null>;
 
 	/**Search for existing room with exactly these 2 participants
 	 * @param firstSubjectId: First participant's id

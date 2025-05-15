@@ -2,12 +2,12 @@ import { prisma } from '../prisma';
 import { Prisma } from 'prisma/generated/client';
 import { ChatMessageMapper } from '../mappers/chat/chat-message-mapper';
 import { ChatMessage } from '@/domains/chat/models/entities/chat-message';
+import { ChatMessageDetailsMapper } from '../mappers/chat/chat-message-details-mapper';
 import { ChatMessageWithAuthorMapper } from '../mappers/chat/chat-message-with-author-mapper';
 import {
 	IChatMessageQuerySearchWithCursor,
 	IChatMessageRepository,
 } from '@/domains/chat/application/features/chat/repositories/chat-message-repository';
-import { ChatMessageDetailsMapper } from '../mappers/chat/chat-message-details-mapper';
 
 export class PrismaChatMessagesRepository implements IChatMessageRepository {
 	async create(chatMessage: ChatMessage) {
@@ -59,6 +59,7 @@ export class PrismaChatMessagesRepository implements IChatMessageRepository {
 			include: {
 				author: true,
 				readReceipts: true,
+				attachments: true,
 			},
 			skip,
 			take: limit + 1,
@@ -117,6 +118,7 @@ export class PrismaChatMessagesRepository implements IChatMessageRepository {
 				author: true,
 				room: true,
 				readReceipts: true,
+				attachments: true,
 			},
 		});
 

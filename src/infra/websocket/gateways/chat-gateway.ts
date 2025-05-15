@@ -8,6 +8,8 @@ import { EditChatMessageUseCase } from '@/domains/chat/application/features/chat
 import { CreateChatMessageUseCase } from '@/domains/chat/application/features/chat/use-cases/create-chat-message-use-case';
 import { DeleteChatMessageUseCase } from '@/domains/chat/application/features/chat/use-cases/delete-chat-message-use-case';
 import { MarkMessagesAsReadUseCase } from '@/domains/chat/application/features/chat/use-cases/mark-messages-as-read-use-case';
+import { UpdateAttachmentUseCase } from '@/domains/chat/application/features/attachments/use-cases/update-attachment-use-case';
+import { Attachment } from '@/domains/chat/models/entities/attachment';
 
 export async function chatGateway(app: FastifyInstance) {
 	// Map roomId → Set de sockets
@@ -17,6 +19,7 @@ export async function chatGateway(app: FastifyInstance) {
 	const editChatService = container.resolve(EditChatMessageUseCase);
 	const markAsReadService = container.resolve(MarkMessagesAsReadUseCase);
 	const deleteMessageService = container.resolve(DeleteChatMessageUseCase);
+	const updateAttachmentService = container.resolve(UpdateAttachmentUseCase);
 
 	app.get('/chat/members', { websocket: true, preHandler: [authMiddleware] }, (connection, request) => {
 		const { sub: userId } = request.user;
@@ -144,6 +147,64 @@ export async function chatGateway(app: FastifyInstance) {
 								name: chatMessage.author.name,
 								avatarUrl: chatMessage.author.avatarUrl,
 							},
+						},
+					});
+
+					break;
+				}
+
+				case 'sendAttachmentMessage': {
+					const { roomId, attachmentIds } = payload as IClientToServerEvents['sendAttachmentMessage'];
+					console.log('attachmentIds: ', attachmentIds);
+
+					// 1) persiste no DB via ChatService
+					const messageResult = await chatService.execute({ senderId: userId, content: 'ATTACHMENT_MESSAGE', roomId });
+
+					if (messageResult.isFalse()) {
+						throw messageResult.value;
+					}
+
+					const { chatMessage } = messageResult.value;
+
+					const attachments: Array<Attachment> = [];
+
+					for await (const attachmentId of attachmentIds) {
+						const result = await updateAttachmentService.execute({
+							id: attachmentId,
+							roomId,
+							messageId: chatMessage.id.toString(),
+						});
+
+						if (result.isFalse()) {
+							throw messageResult.value;
+						}
+
+						attachments.push(result.value.attachment);
+					}
+
+					// 2) envia a todos da sala
+					broadcast(roomId, 'message', {
+						roomId,
+						message: {
+							id: chatMessage.id.toString(),
+							roomId: chatMessage.roomId.toString(),
+							senderId: chatMessage.senderId.toString(),
+							content: chatMessage.content,
+							isDeleted: false,
+							createdAt: chatMessage.createdAt.toISOString(),
+							author: {
+								id: chatMessage.author.id.toString(),
+								name: chatMessage.author.name,
+								avatarUrl: chatMessage.author.avatarUrl,
+							},
+							attachments: attachments.map((attachment) => {
+								return {
+									id: attachment.id.toString(),
+									title: attachment.title,
+									url: attachment.url,
+									type: attachment.type,
+								};
+							}),
 						},
 					});
 

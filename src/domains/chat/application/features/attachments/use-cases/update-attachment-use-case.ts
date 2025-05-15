@@ -5,6 +5,7 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id';
 import { IAttachmentRepository } from '../repositories/attachment-repository';
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error';
 import { DEPENDENCY_IDENTIFIERS } from '@/shared/di/containers/dependency-identifiers';
+import { Attachment } from '@/domains/chat/models/entities/attachment';
 
 interface IRequest {
 	id: string;
@@ -14,7 +15,7 @@ interface IRequest {
 	messageId?: string;
 }
 
-type Response = Outcome<ResourceNotFoundError, null>;
+type Response = Outcome<ResourceNotFoundError, { attachment: Attachment }>;
 
 @injectable()
 export class UpdateAttachmentUseCase {
@@ -37,6 +38,6 @@ export class UpdateAttachmentUseCase {
 
 		await this.attachmentsRepository.update(attachment);
 
-		return success(null);
+		return success({ attachment });
 	}
 }
