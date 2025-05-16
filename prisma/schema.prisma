@@ -28,13 +28,14 @@ model User {
   session             Session?
   accounts            Account[]
   tokens              Token[]
-  invitationsSent     Invitation[]  @relation("sentInvitations")
-  invitationsReceived Invitation[]  @relation("receivedInvitations")
-  friendships         Friendship[]  @relation("userFriendships")
-  friendOf            Friendship[]  @relation("friendOf")
+  invitationsSent     Invitation[]   @relation("sentInvitations")
+  invitationsReceived Invitation[]   @relation("receivedInvitations")
+  friendships         Friendship[]   @relation("userFriendships")
+  friendOf            Friendship[]   @relation("friendOf")
   participants        Participant[] // relacionamento com salas
   chatMessages        ChatMessage[]
   readReceipts        ReadReceipt[]
+  notifications       Notification[]
 
   @@map("users")
 }
@@ -207,4 +208,28 @@ model Attachment {
 
   @@index([roomId])
   @@map("attachments")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  type      String
+  data      Json
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  notificationType NotificationType @relation(fields: [type], references: [key], onUpdate: Cascade)
+  user             User             @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@index([userId, isRead])
+  @@map("notifications")
+}
+
+model NotificationType {
+  key   String @unique
+  label String
+
+  notifications Notification[]
+
+  @@map("notification_types")
 }

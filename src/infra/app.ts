@@ -19,6 +19,7 @@ import { env } from '@/env';
 import { routes } from './http/routes';
 import { errorHandler } from './error-handler';
 import { chatGateway } from './websocket/gateways/chat-gateway';
+import { presenceGateway } from './websocket/gateways/presence-gateway';
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -87,5 +88,8 @@ app.register(fastifyStatic, {
 	prefix: '/api/public',
 });
 
+// Websocket events
 app.register(chatGateway, { prefix: '/ws' });
+app.register(presenceGateway, { prefix: '/ws' });
+
 app.register(routes, { prefix: '/api' });
