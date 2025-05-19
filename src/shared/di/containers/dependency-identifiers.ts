@@ -1,4 +1,5 @@
 export const DEPENDENCY_IDENTIFIERS = {
+	EVENT_BUS: 'EventBus',
 	ACCOUNTS_REPOSITORY: 'AccountsRepository',
 	CHAT_MESSAGES_REPOSITORY: 'ChatMessagesRepository',
 	FRIENDSHIPS_REPOSITORY: 'FriendshipsRepository',
@@ -9,6 +10,7 @@ export const DEPENDENCY_IDENTIFIERS = {
 	USERS_REPOSITORY: 'UsersRepository',
 	READ_RECEIPTS_REPOSITORY: 'ReadReceiptsRepository',
 	ATTACHMENTS_REPOSITORY: 'AttachmentsRepository',
+	NOTIFICATIONS_REPOSITORY: 'NotificationsRepository',
 } as const;
 
 export type DependencyIdentifiers = (typeof DEPENDENCY_IDENTIFIERS)[keyof typeof DEPENDENCY_IDENTIFIERS];

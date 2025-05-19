@@ -13,8 +13,8 @@ export class NotificationDetails extends ValueObject<INotificationDetailsProps> 
 		return this.props.id;
 	}
 
-	get userId() {
-		return this.props.userId;
+	get recipientId() {
+		return this.props.recipientId;
 	}
 
 	get type() {

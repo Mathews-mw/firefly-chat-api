@@ -214,7 +214,7 @@ exports.Prisma.AttachmentScalarFieldEnum = {
 
 exports.Prisma.NotificationScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
+  recipientId: 'recipientId',
   type: 'type',
   data: 'data',
   isRead: 'isRead',

@@ -1,23 +1,23 @@
-import { JsonValue } from '@/core/types/json';
 import { Entity } from '@/core/entities/entity';
 import { Optional } from '@/core/types/optional';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
+import { Json } from '@/core/types/json';
 
-export interface INotificationProps {
-	userId: UniqueEntityId;
+export interface INotificationProps<TData = Json> {
+	recipientId: UniqueEntityId;
 	type: string;
-	data: JsonValue;
+	data: TData;
 	isRead: boolean;
 	createdAt: Date;
 }
 
-export class Notification extends Entity<INotificationProps> {
-	get userId() {
-		return this.props.userId;
+export class Notification<TData = Json> extends Entity<INotificationProps<TData>> {
+	get recipientId() {
+		return this.props.recipientId;
 	}
 
-	set userId(userId: UniqueEntityId) {
-		this.props.userId = userId;
+	set recipientId(recipientId: UniqueEntityId) {
+		this.props.recipientId = recipientId;
 	}
 
 	get type() {
@@ -28,11 +28,11 @@ export class Notification extends Entity<INotificationProps> {
 		this.props.type = type;
 	}
 
-	get data() {
+	get data(): TData {
 		return this.props.data;
 	}
 
-	set data(data: JsonValue) {
+	set data(data: TData) {
 		this.props.data = data;
 	}
 
@@ -48,7 +48,7 @@ export class Notification extends Entity<INotificationProps> {
 		return this.props.createdAt;
 	}
 
-	static create(props: Optional<INotificationProps, 'isRead' | 'createdAt'>, id?: UniqueEntityId) {
+	static create<TData = Json>(props: Optional<INotificationProps<TData>, 'isRead' | 'createdAt'>, id?: UniqueEntityId) {
 		const notification = new Notification(
 			{
 				...props,

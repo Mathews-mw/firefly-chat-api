@@ -1,8 +1,13 @@
 import { Entity } from '@/core/entities/entity';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
+import { z } from 'zod';
+
+export const invitationTypeKeySchema = z.union([z.literal('FRIEND_REQUEST'), z.literal('FRIEND_ACCEPTED')]);
+
+export type IInvitationTypeKey = z.infer<typeof invitationTypeKeySchema>;
 
 export interface INotificationTypeProps {
-	key: string;
+	key: IInvitationTypeKey;
 	label: string;
 }
 
@@ -11,7 +16,7 @@ export class NotificationType extends Entity<INotificationTypeProps> {
 		return this.props.key;
 	}
 
-	set key(key: string) {
+	set key(key: IInvitationTypeKey) {
 		this.props.key = key;
 	}
 

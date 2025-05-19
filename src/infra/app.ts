@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import '@/shared/di/containers/index';
+import './event-buses';
 
 import path from 'node:path';
 import fastify from 'fastify';

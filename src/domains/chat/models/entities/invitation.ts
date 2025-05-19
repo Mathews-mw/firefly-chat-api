@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { Entity } from '@/core/entities/entity';
 import { Optional } from '@/core/types/optional';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
+import { InvitationSentEvent } from '../../events/invitation-sent-event';
 
 export const invitationStatusSchema = z.union([z.literal('PENDING'), z.literal('ACCEPTED'), z.literal('REJECTED')]);
 
@@ -62,6 +63,13 @@ export class Invitation extends Entity<IInvitationProps> {
 			},
 			id
 		);
+
+		const isNewInvitation = !id;
+
+		// O evento só será disparado para novas answer criadas, ou seja, que não possuam um ID.
+		if (isNewInvitation) {
+			invitation.addDomainEvent(new InvitationSentEvent(invitation));
+		}
 
 		return invitation;
 	}

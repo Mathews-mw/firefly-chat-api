@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
+import { EventBus } from '@/core/events/event-bus';
 import { failure, Outcome, success } from '@/core/outcome';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
 import { BadRequestError } from '@/core/errors/bad-request-errors';
@@ -19,8 +20,9 @@ type Response = Outcome<BadRequestError | ResourceNotFoundError, { invitation: I
 @injectable()
 export class SendInvitationUseCase {
 	constructor(
-		@inject(DEPENDENCY_IDENTIFIERS.INVITATIONS_REPOSITORY) private invitationsRepository: IInvitationRepository,
-		@inject(DEPENDENCY_IDENTIFIERS.USERS_REPOSITORY) private usersRepository: IUserRepository
+		@inject(DEPENDENCY_IDENTIFIERS.EVENT_BUS) private eventBus: EventBus,
+		@inject(DEPENDENCY_IDENTIFIERS.USERS_REPOSITORY) private usersRepository: IUserRepository,
+		@inject(DEPENDENCY_IDENTIFIERS.INVITATIONS_REPOSITORY) private invitationsRepository: IInvitationRepository
 	) {}
 
 	async execute({ senderId, username }: IRequest): Promise<Response> {
@@ -56,6 +58,8 @@ export class SendInvitationUseCase {
 		});
 
 		await this.invitationsRepository.create(newInvitation);
+
+		await this.eventBus.publish(...newInvitation.pullDomainEvents());
 
 		return success({ invitation: newInvitation });
 	}

@@ -2,6 +2,7 @@ import { container } from 'tsyringe';
 
 import { DependencyIdentifiers } from './dependency-identifiers';
 
+import { EventBus } from '@/core/events/event-bus';
 import { PrismaUsersRepository } from '@/infra/database/repositories/prisma-users-repository';
 import { PrismaRoomsRepository } from '@/infra/database/repositories/prisma-rooms-repository';
 import { PrismaSessionsRepository } from '@/infra/database/repositories/prisma-sessions-repository';
@@ -12,10 +13,13 @@ import { PrismaInvitationsRepository } from '@/infra/database/repositories/prism
 import { PrismaParticipantsRepository } from '@/infra/database/repositories/prisma-participants-repository';
 import { PrismaChatMessagesRepository } from '@/infra/database/repositories/prisma-chat-messages-repository';
 import { PrismaReadReceiptsRepository } from '@/infra/database/repositories/prisma-read-receipts-repository';
+import { PrismaNotificationsRepository } from '@/infra/database/repositories/prisma-notifications-repository';
 
 function registerSingleton<T>(identifier: DependencyIdentifiers, implementation: new (...args: any[]) => T) {
 	container.registerSingleton(identifier, implementation);
 }
+
+registerSingleton('EventBus', EventBus);
 
 registerSingleton('UsersRepository', PrismaUsersRepository);
 registerSingleton('RoomsRepository', PrismaRoomsRepository);
@@ -27,3 +31,4 @@ registerSingleton('FriendshipsRepository', PrismaFriendshipsRepository);
 registerSingleton('ParticipantsRepository', PrismaParticipantsRepository);
 registerSingleton('ChatMessagesRepository', PrismaChatMessagesRepository);
 registerSingleton('ReadReceiptsRepository', PrismaReadReceiptsRepository);
+registerSingleton('NotificationsRepository', PrismaNotificationsRepository);

@@ -14475,7 +14475,7 @@ export namespace Prisma {
 
   export type NotificationMinAggregateOutputType = {
     id: string | null
-    userId: string | null
+    recipientId: string | null
     type: string | null
     isRead: boolean | null
     createdAt: Date | null
@@ -14483,7 +14483,7 @@ export namespace Prisma {
 
   export type NotificationMaxAggregateOutputType = {
     id: string | null
-    userId: string | null
+    recipientId: string | null
     type: string | null
     isRead: boolean | null
     createdAt: Date | null
@@ -14491,7 +14491,7 @@ export namespace Prisma {
 
   export type NotificationCountAggregateOutputType = {
     id: number
-    userId: number
+    recipientId: number
     type: number
     data: number
     isRead: number
@@ -14502,7 +14502,7 @@ export namespace Prisma {
 
   export type NotificationMinAggregateInputType = {
     id?: true
-    userId?: true
+    recipientId?: true
     type?: true
     isRead?: true
     createdAt?: true
@@ -14510,7 +14510,7 @@ export namespace Prisma {
 
   export type NotificationMaxAggregateInputType = {
     id?: true
-    userId?: true
+    recipientId?: true
     type?: true
     isRead?: true
     createdAt?: true
@@ -14518,7 +14518,7 @@ export namespace Prisma {
 
   export type NotificationCountAggregateInputType = {
     id?: true
-    userId?: true
+    recipientId?: true
     type?: true
     data?: true
     isRead?: true
@@ -14600,7 +14600,7 @@ export namespace Prisma {
 
   export type NotificationGroupByOutputType = {
     id: string
-    userId: string
+    recipientId: string
     type: string
     data: JsonValue
     isRead: boolean
@@ -14626,7 +14626,7 @@ export namespace Prisma {
 
   export type NotificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
+    recipientId?: boolean
     type?: boolean
     data?: boolean
     isRead?: boolean
@@ -14637,7 +14637,7 @@ export namespace Prisma {
 
   export type NotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
+    recipientId?: boolean
     type?: boolean
     data?: boolean
     isRead?: boolean
@@ -14648,7 +14648,7 @@ export namespace Prisma {
 
   export type NotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
+    recipientId?: boolean
     type?: boolean
     data?: boolean
     isRead?: boolean
@@ -14659,14 +14659,14 @@ export namespace Prisma {
 
   export type NotificationSelectScalar = {
     id?: boolean
-    userId?: boolean
+    recipientId?: boolean
     type?: boolean
     data?: boolean
     isRead?: boolean
     createdAt?: boolean
   }
 
-  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "data" | "isRead" | "createdAt", ExtArgs["result"]["notification"]>
+  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "recipientId" | "type" | "data" | "isRead" | "createdAt", ExtArgs["result"]["notification"]>
   export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     notificationType?: boolean | NotificationTypeDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -14688,7 +14688,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      userId: string
+      recipientId: string
       type: string
       data: Prisma.JsonValue
       isRead: boolean
@@ -15119,7 +15119,7 @@ export namespace Prisma {
    */
   interface NotificationFieldRefs {
     readonly id: FieldRef<"Notification", 'String'>
-    readonly userId: FieldRef<"Notification", 'String'>
+    readonly recipientId: FieldRef<"Notification", 'String'>
     readonly type: FieldRef<"Notification", 'String'>
     readonly data: FieldRef<"Notification", 'Json'>
     readonly isRead: FieldRef<"Notification", 'Boolean'>
@@ -16710,7 +16710,7 @@ export namespace Prisma {
 
   export const NotificationScalarFieldEnum: {
     id: 'id',
-    userId: 'userId',
+    recipientId: 'recipientId',
     type: 'type',
     data: 'data',
     isRead: 'isRead',
@@ -17618,7 +17618,7 @@ export namespace Prisma {
     OR?: NotificationWhereInput[]
     NOT?: NotificationWhereInput | NotificationWhereInput[]
     id?: StringFilter<"Notification"> | string
-    userId?: StringFilter<"Notification"> | string
+    recipientId?: StringFilter<"Notification"> | string
     type?: StringFilter<"Notification"> | string
     data?: JsonFilter<"Notification">
     isRead?: BoolFilter<"Notification"> | boolean
@@ -17629,7 +17629,7 @@ export namespace Prisma {
 
   export type NotificationOrderByWithRelationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    recipientId?: SortOrder
     type?: SortOrder
     data?: SortOrder
     isRead?: SortOrder
@@ -17643,7 +17643,7 @@ export namespace Prisma {
     AND?: NotificationWhereInput | NotificationWhereInput[]
     OR?: NotificationWhereInput[]
     NOT?: NotificationWhereInput | NotificationWhereInput[]
-    userId?: StringFilter<"Notification"> | string
+    recipientId?: StringFilter<"Notification"> | string
     type?: StringFilter<"Notification"> | string
     data?: JsonFilter<"Notification">
     isRead?: BoolFilter<"Notification"> | boolean
@@ -17654,7 +17654,7 @@ export namespace Prisma {
 
   export type NotificationOrderByWithAggregationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    recipientId?: SortOrder
     type?: SortOrder
     data?: SortOrder
     isRead?: SortOrder
@@ -17669,7 +17669,7 @@ export namespace Prisma {
     OR?: NotificationScalarWhereWithAggregatesInput[]
     NOT?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Notification"> | string
-    userId?: StringWithAggregatesFilter<"Notification"> | string
+    recipientId?: StringWithAggregatesFilter<"Notification"> | string
     type?: StringWithAggregatesFilter<"Notification"> | string
     data?: JsonWithAggregatesFilter<"Notification">
     isRead?: BoolWithAggregatesFilter<"Notification"> | boolean
@@ -18420,7 +18420,7 @@ export namespace Prisma {
 
   export type NotificationUncheckedCreateInput = {
     id?: string
-    userId: string
+    recipientId: string
     type: string
     data: JsonNullValueInput | InputJsonValue
     isRead?: boolean
@@ -18438,7 +18438,7 @@ export namespace Prisma {
 
   export type NotificationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    recipientId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     isRead?: BoolFieldUpdateOperationsInput | boolean
@@ -18447,7 +18447,7 @@ export namespace Prisma {
 
   export type NotificationCreateManyInput = {
     id?: string
-    userId: string
+    recipientId: string
     type: string
     data: JsonNullValueInput | InputJsonValue
     isRead?: boolean
@@ -18463,7 +18463,7 @@ export namespace Prisma {
 
   export type NotificationUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    recipientId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     isRead?: BoolFieldUpdateOperationsInput | boolean
@@ -19196,7 +19196,7 @@ export namespace Prisma {
 
   export type NotificationCountOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
+    recipientId?: SortOrder
     type?: SortOrder
     data?: SortOrder
     isRead?: SortOrder
@@ -19205,7 +19205,7 @@ export namespace Prisma {
 
   export type NotificationMaxOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
+    recipientId?: SortOrder
     type?: SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
@@ -19213,7 +19213,7 @@ export namespace Prisma {
 
   export type NotificationMinOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
+    recipientId?: SortOrder
     type?: SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
@@ -21056,7 +21056,7 @@ export namespace Prisma {
     OR?: NotificationScalarWhereInput[]
     NOT?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
     id?: StringFilter<"Notification"> | string
-    userId?: StringFilter<"Notification"> | string
+    recipientId?: StringFilter<"Notification"> | string
     type?: StringFilter<"Notification"> | string
     data?: JsonFilter<"Notification">
     isRead?: BoolFilter<"Notification"> | boolean
@@ -22777,7 +22777,7 @@ export namespace Prisma {
 
   export type NotificationUncheckedCreateWithoutNotificationTypeInput = {
     id?: string
-    userId: string
+    recipientId: string
     data: JsonNullValueInput | InputJsonValue
     isRead?: boolean
     createdAt?: Date | string
@@ -23235,7 +23235,7 @@ export namespace Prisma {
 
   export type NotificationCreateManyNotificationTypeInput = {
     id?: string
-    userId: string
+    recipientId: string
     data: JsonNullValueInput | InputJsonValue
     isRead?: boolean
     createdAt?: Date | string
@@ -23251,7 +23251,7 @@ export namespace Prisma {
 
   export type NotificationUncheckedUpdateWithoutNotificationTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    recipientId?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23259,7 +23259,7 @@ export namespace Prisma {
 
   export type NotificationUncheckedUpdateManyWithoutNotificationTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    recipientId?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

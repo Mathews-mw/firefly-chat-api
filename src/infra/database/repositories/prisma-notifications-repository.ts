@@ -43,7 +43,7 @@ export class PrismaNotificationsRepository implements INotificationRepository {
 	async findManyByUserId({ page, perPage, userId, search }: IFindManyByUserQuery) {
 		const query: Prisma.NotificationFindManyArgs = {
 			where: {
-				userId,
+				recipientId: userId,
 			},
 		};
 
