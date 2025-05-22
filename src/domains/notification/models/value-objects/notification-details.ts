@@ -2,13 +2,14 @@ import { INotificationProps } from '../notification';
 import { NotificationType } from '../notification-type';
 import { ValueObject } from '@/core/entities/value-object';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
+import { Json } from '@/core/types/json';
 
-export interface INotificationDetailsProps extends INotificationProps {
+export interface INotificationDetailsProps<TData = Json> extends INotificationProps<TData> {
 	id: UniqueEntityId;
 	notificationType: NotificationType;
 }
 
-export class NotificationDetails extends ValueObject<INotificationDetailsProps> {
+export class NotificationDetails<TData = Json> extends ValueObject<INotificationDetailsProps<TData>> {
 	get id() {
 		return this.props.id;
 	}
@@ -37,7 +38,7 @@ export class NotificationDetails extends ValueObject<INotificationDetailsProps> 
 		return this.props.notificationType;
 	}
 
-	static create(props: INotificationDetailsProps) {
+	static create<TData = Json>(props: INotificationDetailsProps<TData>) {
 		const notificationDetails = new NotificationDetails(props);
 
 		return notificationDetails;

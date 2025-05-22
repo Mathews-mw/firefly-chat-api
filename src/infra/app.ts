@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import '@/shared/di/containers/index';
-import './event-buses';
+import '@/shared/di/event-buses';
 
 import path from 'node:path';
 import fastify from 'fastify';
@@ -21,6 +21,7 @@ import { routes } from './http/routes';
 import { errorHandler } from './error-handler';
 import { chatGateway } from './websocket/gateways/chat-gateway';
 import { presenceGateway } from './websocket/gateways/presence-gateway';
+import { notificationGateway } from './websocket/gateways/notification-gateway';
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -92,5 +93,6 @@ app.register(fastifyStatic, {
 // Websocket events
 app.register(chatGateway, { prefix: '/ws' });
 app.register(presenceGateway, { prefix: '/ws' });
+app.register(notificationGateway, { prefix: '/ws' });
 
 app.register(routes, { prefix: '/api' });

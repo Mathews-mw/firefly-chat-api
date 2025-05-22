@@ -11,6 +11,7 @@ export const DEPENDENCY_IDENTIFIERS = {
 	READ_RECEIPTS_REPOSITORY: 'ReadReceiptsRepository',
 	ATTACHMENTS_REPOSITORY: 'AttachmentsRepository',
 	NOTIFICATIONS_REPOSITORY: 'NotificationsRepository',
+	NOTIFICATION_PUBLISHER: 'NotificationPublisher',
 } as const;
 
 export type DependencyIdentifiers = (typeof DEPENDENCY_IDENTIFIERS)[keyof typeof DEPENDENCY_IDENTIFIERS];

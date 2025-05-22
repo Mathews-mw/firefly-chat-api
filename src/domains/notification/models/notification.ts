@@ -1,11 +1,13 @@
+import { Json } from '@/core/types/json';
 import { Entity } from '@/core/entities/entity';
 import { Optional } from '@/core/types/optional';
+import { INotificationTypeKey } from './notification-type';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
-import { Json } from '@/core/types/json';
+import { NotificationCreateEvent } from '../events/notification-create-event';
 
 export interface INotificationProps<TData = Json> {
 	recipientId: UniqueEntityId;
-	type: string;
+	type: INotificationTypeKey;
 	data: TData;
 	isRead: boolean;
 	createdAt: Date;
@@ -24,7 +26,7 @@ export class Notification<TData = Json> extends Entity<INotificationProps<TData>
 		return this.props.type;
 	}
 
-	set type(type: string) {
+	set type(type: INotificationTypeKey) {
 		this.props.type = type;
 	}
 
@@ -57,6 +59,12 @@ export class Notification<TData = Json> extends Entity<INotificationProps<TData>
 			},
 			id
 		);
+
+		const isNewNotification = !id;
+
+		if (isNewNotification) {
+			notification.addDomainEvent(new NotificationCreateEvent(notification));
+		}
 
 		return notification;
 	}

@@ -11,7 +11,7 @@ const paramsSchema = z.object({
 });
 
 const querySchema = z.object({
-	type: roomTypeSchema,
+	type: z.optional(roomTypeSchema),
 	user_id: z.optional(z.string().uuid()),
 });
 

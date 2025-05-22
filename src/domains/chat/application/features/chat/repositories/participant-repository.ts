@@ -7,6 +7,7 @@ export interface IFindUniqueParticipantParams {
 
 export interface IParticipantRepository {
 	create(participant: Participant): Promise<Participant>;
+	createMany(participants: Participant[]): Promise<number>;
 	update(participant: Participant): Promise<Participant>;
 	delete(participant: Participant): Promise<void>;
 	findMany(): Promise<Participant[]>;

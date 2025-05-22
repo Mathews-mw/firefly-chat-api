@@ -6,11 +6,12 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id';
 import { Notification } from '@/domains/notification/models/notification';
 import { INotificationRepository } from '../repositories/notification-repository';
 import { DEPENDENCY_IDENTIFIERS } from '@/shared/di/containers/dependency-identifiers';
-import { IInvitationTypeKey } from '@/domains/notification/models/notification-type';
+import { INotificationTypeKey } from '@/domains/notification/models/notification-type';
+import { EventBus } from '@/core/events/event-bus';
 
 export interface ISendNotificationUseCaseRequest<TRequest extends Json = Json> {
 	recipientId: string;
-	type: IInvitationTypeKey;
+	type: INotificationTypeKey;
 	payload: TRequest;
 }
 
@@ -24,6 +25,7 @@ export type TSendNotificationUseCaseResponse<TResponse extends Json = Json> = Ou
 @injectable()
 export class SendNotificationUseCase {
 	constructor(
+		@inject(DEPENDENCY_IDENTIFIERS.EVENT_BUS) private eventBus: EventBus,
 		@inject(DEPENDENCY_IDENTIFIERS.NOTIFICATIONS_REPOSITORY)
 		private notificationRepository: INotificationRepository
 	) {}
@@ -40,6 +42,8 @@ export class SendNotificationUseCase {
 		});
 
 		await this.notificationRepository.create(notification as Notification<Json>);
+
+		await this.eventBus.publish(...notification.pullDomainEvents());
 
 		return success({
 			notification,

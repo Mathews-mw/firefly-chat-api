@@ -11,7 +11,7 @@ import { RoomWithParticipants } from '@/domains/chat/models/entities/value-objec
 interface IRequest {
 	roomId: string;
 	userId?: string;
-	type: RoomType;
+	type?: RoomType;
 }
 
 type Response = Outcome<ResourceNotFoundError | ForbiddenError, { room: RoomWithParticipants }>;

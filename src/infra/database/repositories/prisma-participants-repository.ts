@@ -17,6 +17,17 @@ export class PrismaParticipantsRepository implements IParticipantRepository {
 		return participant;
 	}
 
+	async createMany(participants: Participant[]) {
+		const data = participants.map(ParticipantMapper.toPrisma);
+
+		const result = await prisma.participant.createMany({
+			data,
+			skipDuplicates: true,
+		});
+
+		return result.count;
+	}
+
 	async update(participant: Participant) {
 		const data = ParticipantMapper.toPrisma(participant);
 

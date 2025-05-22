@@ -49,10 +49,10 @@ export class PrismaRoomsRepository implements IRoomRepository {
 		return rooms.map(RoomMapper.toDomain);
 	}
 
-	async findManyByUser({ limit, cursor, skip, userId }: IFindManyRoomsByUserSearchCursor) {
+	async findManyByUser({ limit, cursor, skip, userId, type }: IFindManyRoomsByUserSearchCursor) {
 		const rooms = await prisma.room.findMany({
 			where: {
-				type: 'PRIVATE',
+				type: type ?? 'PRIVATE',
 				participants: { some: { userId } },
 			},
 			include: {
@@ -147,7 +147,7 @@ export class PrismaRoomsRepository implements IRoomRepository {
 		const room = await prisma.room.findUnique({
 			where: {
 				id: roomId,
-				type,
+				type: type ?? 'PRIVATE',
 			},
 			include: {
 				participants: {
@@ -175,10 +175,10 @@ export class PrismaRoomsRepository implements IRoomRepository {
 		return RoomWithParticipantsMapper.toDomain(room);
 	}
 
-	async findUniqueByParticipants({ firstSubjectId, secondSubjectId }: IFindUniqueParams) {
+	async findUniqueByParticipants({ firstSubjectId, secondSubjectId, type }: IFindUniqueParams) {
 		const room = await prisma.room.findFirst({
 			where: {
-				type: 'PRIVATE',
+				type: type ?? 'PRIVATE',
 				participants: {
 					every: {
 						userId: {

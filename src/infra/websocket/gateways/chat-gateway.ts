@@ -32,7 +32,7 @@ export async function chatGateway(app: FastifyInstance) {
 
 				await handleEvent(msg.event, msg.payload, connection, userId);
 			} catch (error) {
-				console.log('WebSocket - Erro ao tentar registra handlers de mensagem: ', error);
+				console.log('Chat WebSocket - Erro ao tentar registra handlers de mensagem: ', error);
 				throw error;
 			}
 		});
@@ -99,7 +99,6 @@ export async function chatGateway(app: FastifyInstance) {
 
 				case 'markAsRead': {
 					const { roomId, messageIds } = payload as IClientToServerEvents['markAsRead'];
-					console.log('deve registrar leitura das msg: ', messageIds);
 
 					try {
 						await markAsReadService.execute({ roomId, userId, messageIds });
@@ -155,7 +154,6 @@ export async function chatGateway(app: FastifyInstance) {
 
 				case 'sendAttachmentMessage': {
 					const { roomId, attachmentIds } = payload as IClientToServerEvents['sendAttachmentMessage'];
-					console.log('attachmentIds: ', attachmentIds);
 
 					// 1) persiste no DB via ChatService
 					const messageResult = await chatService.execute({ senderId: userId, content: 'ATTACHMENT_MESSAGE', roomId });

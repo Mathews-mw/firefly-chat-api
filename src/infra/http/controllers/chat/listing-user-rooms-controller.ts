@@ -3,29 +3,27 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 
 import { PaginationPresenter } from '../../presenters/pagination-presenter';
 import { RoomWithParticipantsPresenter } from '../../presenters/chat/room-with-participants-presenter';
-import { ListingUserPrivateRoomsUseCase } from '@/domains/chat/application/features/chat/use-cases/listing-user-private-rooms-use-case';
-import {
-	ListingUserPrivateRoomsQuery,
-	ListingUserPrivateRoomsResponse,
-} from '../../schemas/chat/listing-user-private-rooms-schema';
+import { ListingUserRoomsQuery, ListingUserRoomsResponse } from '../../schemas/chat/listing-user-rooms-schema';
+import { ListingUserRoomsUseCase } from '@/domains/chat/application/features/chat/use-cases/listing-user-rooms-use-case';
 
-export async function listingUserPrivateRooms(request: FastifyRequest, reply: FastifyReply) {
-	const { limit, cursor, skip } = request.query as ListingUserPrivateRoomsQuery;
+export async function listingUserRoomsController(request: FastifyRequest, reply: FastifyReply) {
+	const { limit, cursor, skip, type } = request.query as ListingUserRoomsQuery;
 	const { sub } = request.user;
 
-	const service = container.resolve(ListingUserPrivateRoomsUseCase);
+	const service = container.resolve(ListingUserRoomsUseCase);
 
 	const result = await service.execute({
 		limit,
 		cursor,
 		skip,
 		userId: sub,
+		type,
 	});
 
 	if (result.isFalse()) {
 		throw result.value;
 	}
-	const response: ListingUserPrivateRoomsResponse = {
+	const response: ListingUserRoomsResponse = {
 		cursor: PaginationPresenter.cursorModeToHTTP(result.value.cursor),
 		rooms: result.value.rooms.map(RoomWithParticipantsPresenter.toHTTP),
 	};

@@ -2053,6 +2053,7 @@ export namespace Prisma {
     chatMessages: number
     readReceipts: number
     notifications: number
+    ownerRooms: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2066,6 +2067,7 @@ export namespace Prisma {
     chatMessages?: boolean | UserCountOutputTypeCountChatMessagesArgs
     readReceipts?: boolean | UserCountOutputTypeCountReadReceiptsArgs
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+    ownerRooms?: boolean | UserCountOutputTypeCountOwnerRoomsArgs
   }
 
   // Custom InputTypes
@@ -2147,6 +2149,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountOwnerRoomsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomWhereInput
   }
 
 
@@ -2489,6 +2498,7 @@ export namespace Prisma {
     chatMessages?: boolean | User$chatMessagesArgs<ExtArgs>
     readReceipts?: boolean | User$readReceiptsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    ownerRooms?: boolean | User$ownerRoomsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2544,6 +2554,7 @@ export namespace Prisma {
     chatMessages?: boolean | User$chatMessagesArgs<ExtArgs>
     readReceipts?: boolean | User$readReceiptsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    ownerRooms?: boolean | User$ownerRoomsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2563,6 +2574,7 @@ export namespace Prisma {
       chatMessages: Prisma.$ChatMessagePayload<ExtArgs>[]
       readReceipts: Prisma.$ReadReceiptPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      ownerRooms: Prisma.$RoomPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2980,6 +2992,7 @@ export namespace Prisma {
     chatMessages<T extends User$chatMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$chatMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     readReceipts<T extends User$readReceiptsArgs<ExtArgs> = {}>(args?: Subset<T, User$readReceiptsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReadReceiptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ownerRooms<T extends User$ownerRoomsArgs<ExtArgs> = {}>(args?: Subset<T, User$ownerRoomsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3663,6 +3676,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * User.ownerRooms
+   */
+  export type User$ownerRoomsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Room
+     */
+    select?: RoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Room
+     */
+    omit?: RoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomInclude<ExtArgs> | null
+    where?: RoomWhereInput
+    orderBy?: RoomOrderByWithRelationInput | RoomOrderByWithRelationInput[]
+    cursor?: RoomWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoomScalarFieldEnum | RoomScalarFieldEnum[]
   }
 
   /**
@@ -9029,18 +9066,30 @@ export namespace Prisma {
   export type RoomMinAggregateOutputType = {
     id: string | null
     type: $Enums.RoomType | null
+    name: string | null
+    description: string | null
+    imageUrl: string | null
+    ownerId: string | null
     createdAt: Date | null
   }
 
   export type RoomMaxAggregateOutputType = {
     id: string | null
     type: $Enums.RoomType | null
+    name: string | null
+    description: string | null
+    imageUrl: string | null
+    ownerId: string | null
     createdAt: Date | null
   }
 
   export type RoomCountAggregateOutputType = {
     id: number
     type: number
+    name: number
+    description: number
+    imageUrl: number
+    ownerId: number
     createdAt: number
     _all: number
   }
@@ -9049,18 +9098,30 @@ export namespace Prisma {
   export type RoomMinAggregateInputType = {
     id?: true
     type?: true
+    name?: true
+    description?: true
+    imageUrl?: true
+    ownerId?: true
     createdAt?: true
   }
 
   export type RoomMaxAggregateInputType = {
     id?: true
     type?: true
+    name?: true
+    description?: true
+    imageUrl?: true
+    ownerId?: true
     createdAt?: true
   }
 
   export type RoomCountAggregateInputType = {
     id?: true
     type?: true
+    name?: true
+    description?: true
+    imageUrl?: true
+    ownerId?: true
     createdAt?: true
     _all?: true
   }
@@ -9140,6 +9201,10 @@ export namespace Prisma {
   export type RoomGroupByOutputType = {
     id: string
     type: $Enums.RoomType
+    name: string | null
+    description: string | null
+    imageUrl: string | null
+    ownerId: string | null
     createdAt: Date
     _count: RoomCountAggregateOutputType | null
     _min: RoomMinAggregateOutputType | null
@@ -9163,7 +9228,12 @@ export namespace Prisma {
   export type RoomSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     type?: boolean
+    name?: boolean
+    description?: boolean
+    imageUrl?: boolean
+    ownerId?: boolean
     createdAt?: boolean
+    owner?: boolean | Room$ownerArgs<ExtArgs>
     participants?: boolean | Room$participantsArgs<ExtArgs>
     chatMessages?: boolean | Room$chatMessagesArgs<ExtArgs>
     attachments?: boolean | Room$attachmentsArgs<ExtArgs>
@@ -9173,34 +9243,54 @@ export namespace Prisma {
   export type RoomSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     type?: boolean
+    name?: boolean
+    description?: boolean
+    imageUrl?: boolean
+    ownerId?: boolean
     createdAt?: boolean
+    owner?: boolean | Room$ownerArgs<ExtArgs>
   }, ExtArgs["result"]["room"]>
 
   export type RoomSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     type?: boolean
+    name?: boolean
+    description?: boolean
+    imageUrl?: boolean
+    ownerId?: boolean
     createdAt?: boolean
+    owner?: boolean | Room$ownerArgs<ExtArgs>
   }, ExtArgs["result"]["room"]>
 
   export type RoomSelectScalar = {
     id?: boolean
     type?: boolean
+    name?: boolean
+    description?: boolean
+    imageUrl?: boolean
+    ownerId?: boolean
     createdAt?: boolean
   }
 
-  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "createdAt", ExtArgs["result"]["room"]>
+  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "name" | "description" | "imageUrl" | "ownerId" | "createdAt", ExtArgs["result"]["room"]>
   export type RoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | Room$ownerArgs<ExtArgs>
     participants?: boolean | Room$participantsArgs<ExtArgs>
     chatMessages?: boolean | Room$chatMessagesArgs<ExtArgs>
     attachments?: boolean | Room$attachmentsArgs<ExtArgs>
     _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type RoomIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type RoomIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type RoomIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | Room$ownerArgs<ExtArgs>
+  }
+  export type RoomIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | Room$ownerArgs<ExtArgs>
+  }
 
   export type $RoomPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Room"
     objects: {
+      owner: Prisma.$UserPayload<ExtArgs> | null
       participants: Prisma.$ParticipantPayload<ExtArgs>[]
       chatMessages: Prisma.$ChatMessagePayload<ExtArgs>[]
       attachments: Prisma.$AttachmentPayload<ExtArgs>[]
@@ -9208,6 +9298,10 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       type: $Enums.RoomType
+      name: string | null
+      description: string | null
+      imageUrl: string | null
+      ownerId: string | null
       createdAt: Date
     }, ExtArgs["result"]["room"]>
     composites: {}
@@ -9603,6 +9697,7 @@ export namespace Prisma {
    */
   export interface Prisma__RoomClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    owner<T extends Room$ownerArgs<ExtArgs> = {}>(args?: Subset<T, Room$ownerArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     participants<T extends Room$participantsArgs<ExtArgs> = {}>(args?: Subset<T, Room$participantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     chatMessages<T extends Room$chatMessagesArgs<ExtArgs> = {}>(args?: Subset<T, Room$chatMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     attachments<T extends Room$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Room$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -9637,6 +9732,10 @@ export namespace Prisma {
   interface RoomFieldRefs {
     readonly id: FieldRef<"Room", 'String'>
     readonly type: FieldRef<"Room", 'RoomType'>
+    readonly name: FieldRef<"Room", 'String'>
+    readonly description: FieldRef<"Room", 'String'>
+    readonly imageUrl: FieldRef<"Room", 'String'>
+    readonly ownerId: FieldRef<"Room", 'String'>
     readonly createdAt: FieldRef<"Room", 'DateTime'>
   }
     
@@ -9887,6 +9986,10 @@ export namespace Prisma {
      */
     data: RoomCreateManyInput | RoomCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -9957,6 +10060,10 @@ export namespace Prisma {
      * Limit how many Rooms to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -10023,6 +10130,25 @@ export namespace Prisma {
      * Limit how many Rooms to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Room.owner
+   */
+  export type Room$ownerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -16659,6 +16785,10 @@ export namespace Prisma {
   export const RoomScalarFieldEnum: {
     id: 'id',
     type: 'type',
+    name: 'name',
+    description: 'description',
+    imageUrl: 'imageUrl',
+    ownerId: 'ownerId',
     createdAt: 'createdAt'
   };
 
@@ -16948,6 +17078,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageListRelationFilter
     readReceipts?: ReadReceiptListRelationFilter
     notifications?: NotificationListRelationFilter
+    ownerRooms?: RoomListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -16972,6 +17103,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageOrderByRelationAggregateInput
     readReceipts?: ReadReceiptOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
+    ownerRooms?: RoomOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -16999,6 +17131,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageListRelationFilter
     readReceipts?: ReadReceiptListRelationFilter
     notifications?: NotificationListRelationFilter
+    ownerRooms?: RoomListRelationFilter
   }, "id" | "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -17333,7 +17466,12 @@ export namespace Prisma {
     NOT?: RoomWhereInput | RoomWhereInput[]
     id?: StringFilter<"Room"> | string
     type?: EnumRoomTypeFilter<"Room"> | $Enums.RoomType
+    name?: StringNullableFilter<"Room"> | string | null
+    description?: StringNullableFilter<"Room"> | string | null
+    imageUrl?: StringNullableFilter<"Room"> | string | null
+    ownerId?: StringNullableFilter<"Room"> | string | null
     createdAt?: DateTimeFilter<"Room"> | Date | string
+    owner?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     participants?: ParticipantListRelationFilter
     chatMessages?: ChatMessageListRelationFilter
     attachments?: AttachmentListRelationFilter
@@ -17342,7 +17480,12 @@ export namespace Prisma {
   export type RoomOrderByWithRelationInput = {
     id?: SortOrder
     type?: SortOrder
+    name?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    ownerId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    owner?: UserOrderByWithRelationInput
     participants?: ParticipantOrderByRelationAggregateInput
     chatMessages?: ChatMessageOrderByRelationAggregateInput
     attachments?: AttachmentOrderByRelationAggregateInput
@@ -17354,7 +17497,12 @@ export namespace Prisma {
     OR?: RoomWhereInput[]
     NOT?: RoomWhereInput | RoomWhereInput[]
     type?: EnumRoomTypeFilter<"Room"> | $Enums.RoomType
+    name?: StringNullableFilter<"Room"> | string | null
+    description?: StringNullableFilter<"Room"> | string | null
+    imageUrl?: StringNullableFilter<"Room"> | string | null
+    ownerId?: StringNullableFilter<"Room"> | string | null
     createdAt?: DateTimeFilter<"Room"> | Date | string
+    owner?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     participants?: ParticipantListRelationFilter
     chatMessages?: ChatMessageListRelationFilter
     attachments?: AttachmentListRelationFilter
@@ -17363,6 +17511,10 @@ export namespace Prisma {
   export type RoomOrderByWithAggregationInput = {
     id?: SortOrder
     type?: SortOrder
+    name?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    ownerId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: RoomCountOrderByAggregateInput
     _max?: RoomMaxOrderByAggregateInput
@@ -17375,6 +17527,10 @@ export namespace Prisma {
     NOT?: RoomScalarWhereWithAggregatesInput | RoomScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Room"> | string
     type?: EnumRoomTypeWithAggregatesFilter<"Room"> | $Enums.RoomType
+    name?: StringNullableWithAggregatesFilter<"Room"> | string | null
+    description?: StringNullableWithAggregatesFilter<"Room"> | string | null
+    imageUrl?: StringNullableWithAggregatesFilter<"Room"> | string | null
+    ownerId?: StringNullableWithAggregatesFilter<"Room"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Room"> | Date | string
   }
 
@@ -17738,6 +17894,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -17762,6 +17919,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUpdateInput = {
@@ -17786,6 +17944,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -17810,6 +17969,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -18141,7 +18301,11 @@ export namespace Prisma {
   export type RoomCreateInput = {
     id?: string
     type?: $Enums.RoomType
+    name?: string | null
+    description?: string | null
+    imageUrl?: string | null
     createdAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnerRoomsInput
     participants?: ParticipantCreateNestedManyWithoutRoomInput
     chatMessages?: ChatMessageCreateNestedManyWithoutRoomInput
     attachments?: AttachmentCreateNestedManyWithoutRoomInput
@@ -18150,6 +18314,10 @@ export namespace Prisma {
   export type RoomUncheckedCreateInput = {
     id?: string
     type?: $Enums.RoomType
+    name?: string | null
+    description?: string | null
+    imageUrl?: string | null
+    ownerId?: string | null
     createdAt?: Date | string
     participants?: ParticipantUncheckedCreateNestedManyWithoutRoomInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutRoomInput
@@ -18159,7 +18327,11 @@ export namespace Prisma {
   export type RoomUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnerRoomsNestedInput
     participants?: ParticipantUpdateManyWithoutRoomNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutRoomNestedInput
     attachments?: AttachmentUpdateManyWithoutRoomNestedInput
@@ -18168,6 +18340,10 @@ export namespace Prisma {
   export type RoomUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     participants?: ParticipantUncheckedUpdateManyWithoutRoomNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutRoomNestedInput
@@ -18177,18 +18353,29 @@ export namespace Prisma {
   export type RoomCreateManyInput = {
     id?: string
     type?: $Enums.RoomType
+    name?: string | null
+    description?: string | null
+    imageUrl?: string | null
+    ownerId?: string | null
     createdAt?: Date | string
   }
 
   export type RoomUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RoomUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -18626,6 +18813,12 @@ export namespace Prisma {
     none?: NotificationWhereInput
   }
 
+  export type RoomListRelationFilter = {
+    every?: RoomWhereInput
+    some?: RoomWhereInput
+    none?: RoomWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -18660,6 +18853,10 @@ export namespace Prisma {
   }
 
   export type NotificationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RoomOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -18988,6 +19185,11 @@ export namespace Prisma {
     not?: NestedEnumRoomTypeFilter<$PrismaModel> | $Enums.RoomType
   }
 
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
   export type AttachmentListRelationFilter = {
     every?: AttachmentWhereInput
     some?: AttachmentWhereInput
@@ -19001,18 +19203,30 @@ export namespace Prisma {
   export type RoomCountOrderByAggregateInput = {
     id?: SortOrder
     type?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    imageUrl?: SortOrder
+    ownerId?: SortOrder
     createdAt?: SortOrder
   }
 
   export type RoomMaxOrderByAggregateInput = {
     id?: SortOrder
     type?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    imageUrl?: SortOrder
+    ownerId?: SortOrder
     createdAt?: SortOrder
   }
 
   export type RoomMinOrderByAggregateInput = {
     id?: SortOrder
     type?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    imageUrl?: SortOrder
+    ownerId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -19336,6 +19550,13 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
+  export type RoomCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<RoomCreateWithoutOwnerInput, RoomUncheckedCreateWithoutOwnerInput> | RoomCreateWithoutOwnerInput[] | RoomUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: RoomCreateOrConnectWithoutOwnerInput | RoomCreateOrConnectWithoutOwnerInput[]
+    createMany?: RoomCreateManyOwnerInputEnvelope
+    connect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput
@@ -19410,6 +19631,13 @@ export namespace Prisma {
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
     createMany?: NotificationCreateManyUserInputEnvelope
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type RoomUncheckedCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<RoomCreateWithoutOwnerInput, RoomUncheckedCreateWithoutOwnerInput> | RoomCreateWithoutOwnerInput[] | RoomUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: RoomCreateOrConnectWithoutOwnerInput | RoomCreateOrConnectWithoutOwnerInput[]
+    createMany?: RoomCreateManyOwnerInputEnvelope
+    connect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -19586,6 +19814,20 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
+  export type RoomUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<RoomCreateWithoutOwnerInput, RoomUncheckedCreateWithoutOwnerInput> | RoomCreateWithoutOwnerInput[] | RoomUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: RoomCreateOrConnectWithoutOwnerInput | RoomCreateOrConnectWithoutOwnerInput[]
+    upsert?: RoomUpsertWithWhereUniqueWithoutOwnerInput | RoomUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: RoomCreateManyOwnerInputEnvelope
+    set?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    disconnect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    delete?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    connect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    update?: RoomUpdateWithWhereUniqueWithoutOwnerInput | RoomUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: RoomUpdateManyWithWhereWithoutOwnerInput | RoomUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: RoomScalarWhereInput | RoomScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput
@@ -19736,6 +19978,20 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
+  export type RoomUncheckedUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<RoomCreateWithoutOwnerInput, RoomUncheckedCreateWithoutOwnerInput> | RoomCreateWithoutOwnerInput[] | RoomUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: RoomCreateOrConnectWithoutOwnerInput | RoomCreateOrConnectWithoutOwnerInput[]
+    upsert?: RoomUpsertWithWhereUniqueWithoutOwnerInput | RoomUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: RoomCreateManyOwnerInputEnvelope
+    set?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    disconnect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    delete?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    connect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    update?: RoomUpdateWithWhereUniqueWithoutOwnerInput | RoomUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: RoomUpdateManyWithWhereWithoutOwnerInput | RoomUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: RoomScalarWhereInput | RoomScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutAccountsInput = {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
@@ -19846,6 +20102,12 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFriendOfInput, UserUpdateWithoutFriendOfInput>, UserUncheckedUpdateWithoutFriendOfInput>
   }
 
+  export type UserCreateNestedOneWithoutOwnerRoomsInput = {
+    create?: XOR<UserCreateWithoutOwnerRoomsInput, UserUncheckedCreateWithoutOwnerRoomsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutOwnerRoomsInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type ParticipantCreateNestedManyWithoutRoomInput = {
     create?: XOR<ParticipantCreateWithoutRoomInput, ParticipantUncheckedCreateWithoutRoomInput> | ParticipantCreateWithoutRoomInput[] | ParticipantUncheckedCreateWithoutRoomInput[]
     connectOrCreate?: ParticipantCreateOrConnectWithoutRoomInput | ParticipantCreateOrConnectWithoutRoomInput[]
@@ -19890,6 +20152,16 @@ export namespace Prisma {
 
   export type EnumRoomTypeFieldUpdateOperationsInput = {
     set?: $Enums.RoomType
+  }
+
+  export type UserUpdateOneWithoutOwnerRoomsNestedInput = {
+    create?: XOR<UserCreateWithoutOwnerRoomsInput, UserUncheckedCreateWithoutOwnerRoomsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutOwnerRoomsInput
+    upsert?: UserUpsertWithoutOwnerRoomsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutOwnerRoomsInput, UserUpdateWithoutOwnerRoomsInput>, UserUncheckedUpdateWithoutOwnerRoomsInput>
   }
 
   export type ParticipantUpdateManyWithoutRoomNestedInput = {
@@ -20787,6 +21059,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type RoomCreateWithoutOwnerInput = {
+    id?: string
+    type?: $Enums.RoomType
+    name?: string | null
+    description?: string | null
+    imageUrl?: string | null
+    createdAt?: Date | string
+    participants?: ParticipantCreateNestedManyWithoutRoomInput
+    chatMessages?: ChatMessageCreateNestedManyWithoutRoomInput
+    attachments?: AttachmentCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomUncheckedCreateWithoutOwnerInput = {
+    id?: string
+    type?: $Enums.RoomType
+    name?: string | null
+    description?: string | null
+    imageUrl?: string | null
+    createdAt?: Date | string
+    participants?: ParticipantUncheckedCreateNestedManyWithoutRoomInput
+    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutRoomInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomCreateOrConnectWithoutOwnerInput = {
+    where: RoomWhereUniqueInput
+    create: XOR<RoomCreateWithoutOwnerInput, RoomUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type RoomCreateManyOwnerInputEnvelope = {
+    data: RoomCreateManyOwnerInput | RoomCreateManyOwnerInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SessionUpsertWithoutUserInput = {
     update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
     create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
@@ -21063,6 +21369,35 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Notification"> | Date | string
   }
 
+  export type RoomUpsertWithWhereUniqueWithoutOwnerInput = {
+    where: RoomWhereUniqueInput
+    update: XOR<RoomUpdateWithoutOwnerInput, RoomUncheckedUpdateWithoutOwnerInput>
+    create: XOR<RoomCreateWithoutOwnerInput, RoomUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type RoomUpdateWithWhereUniqueWithoutOwnerInput = {
+    where: RoomWhereUniqueInput
+    data: XOR<RoomUpdateWithoutOwnerInput, RoomUncheckedUpdateWithoutOwnerInput>
+  }
+
+  export type RoomUpdateManyWithWhereWithoutOwnerInput = {
+    where: RoomScalarWhereInput
+    data: XOR<RoomUpdateManyMutationInput, RoomUncheckedUpdateManyWithoutOwnerInput>
+  }
+
+  export type RoomScalarWhereInput = {
+    AND?: RoomScalarWhereInput | RoomScalarWhereInput[]
+    OR?: RoomScalarWhereInput[]
+    NOT?: RoomScalarWhereInput | RoomScalarWhereInput[]
+    id?: StringFilter<"Room"> | string
+    type?: EnumRoomTypeFilter<"Room"> | $Enums.RoomType
+    name?: StringNullableFilter<"Room"> | string | null
+    description?: StringNullableFilter<"Room"> | string | null
+    imageUrl?: StringNullableFilter<"Room"> | string | null
+    ownerId?: StringNullableFilter<"Room"> | string | null
+    createdAt?: DateTimeFilter<"Room"> | Date | string
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name: string
@@ -21084,6 +21419,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -21107,6 +21443,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -21146,6 +21483,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -21169,6 +21507,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutSessionInput = {
@@ -21192,6 +21531,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutSessionInput = {
@@ -21215,6 +21555,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutSessionInput = {
@@ -21254,6 +21595,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionInput = {
@@ -21277,6 +21619,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutTokensInput = {
@@ -21300,6 +21643,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutTokensInput = {
@@ -21323,6 +21667,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutTokensInput = {
@@ -21362,6 +21707,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTokensInput = {
@@ -21385,6 +21731,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutInvitationsSentInput = {
@@ -21408,6 +21755,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutInvitationsSentInput = {
@@ -21431,6 +21779,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutInvitationsSentInput = {
@@ -21459,6 +21808,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutInvitationsReceivedInput = {
@@ -21482,6 +21832,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutInvitationsReceivedInput = {
@@ -21521,6 +21872,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInvitationsSentInput = {
@@ -21544,6 +21896,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUpsertWithoutInvitationsReceivedInput = {
@@ -21578,6 +21931,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInvitationsReceivedInput = {
@@ -21601,6 +21955,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutFriendshipsInput = {
@@ -21624,6 +21979,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutFriendshipsInput = {
@@ -21647,6 +22003,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutFriendshipsInput = {
@@ -21675,6 +22032,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutFriendOfInput = {
@@ -21698,6 +22056,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutFriendOfInput = {
@@ -21737,6 +22096,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFriendshipsInput = {
@@ -21760,6 +22120,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUpsertWithoutFriendOfInput = {
@@ -21794,6 +22155,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFriendOfInput = {
@@ -21817,6 +22179,60 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type UserCreateWithoutOwnerRoomsInput = {
+    id?: string
+    name: string
+    username: string
+    email: string
+    password?: string | null
+    avatarUrl?: string | null
+    role?: $Enums.UserRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    session?: SessionCreateNestedOneWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    tokens?: TokenCreateNestedManyWithoutUserInput
+    invitationsSent?: InvitationCreateNestedManyWithoutSenderInput
+    invitationsReceived?: InvitationCreateNestedManyWithoutReceiverInput
+    friendships?: FriendshipCreateNestedManyWithoutUserInput
+    friendOf?: FriendshipCreateNestedManyWithoutFriendInput
+    participants?: ParticipantCreateNestedManyWithoutUserInput
+    chatMessages?: ChatMessageCreateNestedManyWithoutAuthorInput
+    readReceipts?: ReadReceiptCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutOwnerRoomsInput = {
+    id?: string
+    name: string
+    username: string
+    email: string
+    password?: string | null
+    avatarUrl?: string | null
+    role?: $Enums.UserRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    session?: SessionUncheckedCreateNestedOneWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
+    invitationsSent?: InvitationUncheckedCreateNestedManyWithoutSenderInput
+    invitationsReceived?: InvitationUncheckedCreateNestedManyWithoutReceiverInput
+    friendships?: FriendshipUncheckedCreateNestedManyWithoutUserInput
+    friendOf?: FriendshipUncheckedCreateNestedManyWithoutFriendInput
+    participants?: ParticipantUncheckedCreateNestedManyWithoutUserInput
+    chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutAuthorInput
+    readReceipts?: ReadReceiptUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutOwnerRoomsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutOwnerRoomsInput, UserUncheckedCreateWithoutOwnerRoomsInput>
   }
 
   export type ParticipantCreateWithoutRoomInput = {
@@ -21897,6 +22313,65 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserUpsertWithoutOwnerRoomsInput = {
+    update: XOR<UserUpdateWithoutOwnerRoomsInput, UserUncheckedUpdateWithoutOwnerRoomsInput>
+    create: XOR<UserCreateWithoutOwnerRoomsInput, UserUncheckedCreateWithoutOwnerRoomsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutOwnerRoomsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutOwnerRoomsInput, UserUncheckedUpdateWithoutOwnerRoomsInput>
+  }
+
+  export type UserUpdateWithoutOwnerRoomsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    session?: SessionUpdateOneWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    tokens?: TokenUpdateManyWithoutUserNestedInput
+    invitationsSent?: InvitationUpdateManyWithoutSenderNestedInput
+    invitationsReceived?: InvitationUpdateManyWithoutReceiverNestedInput
+    friendships?: FriendshipUpdateManyWithoutUserNestedInput
+    friendOf?: FriendshipUpdateManyWithoutFriendNestedInput
+    participants?: ParticipantUpdateManyWithoutUserNestedInput
+    chatMessages?: ChatMessageUpdateManyWithoutAuthorNestedInput
+    readReceipts?: ReadReceiptUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutOwnerRoomsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    session?: SessionUncheckedUpdateOneWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
+    invitationsSent?: InvitationUncheckedUpdateManyWithoutSenderNestedInput
+    invitationsReceived?: InvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    friendships?: FriendshipUncheckedUpdateManyWithoutUserNestedInput
+    friendOf?: FriendshipUncheckedUpdateManyWithoutFriendNestedInput
+    participants?: ParticipantUncheckedUpdateManyWithoutUserNestedInput
+    chatMessages?: ChatMessageUncheckedUpdateManyWithoutAuthorNestedInput
+    readReceipts?: ReadReceiptUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type ParticipantUpsertWithWhereUniqueWithoutRoomInput = {
     where: ParticipantWhereUniqueInput
     update: XOR<ParticipantUpdateWithoutRoomInput, ParticipantUncheckedUpdateWithoutRoomInput>
@@ -21960,7 +22435,11 @@ export namespace Prisma {
   export type RoomCreateWithoutParticipantsInput = {
     id?: string
     type?: $Enums.RoomType
+    name?: string | null
+    description?: string | null
+    imageUrl?: string | null
     createdAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnerRoomsInput
     chatMessages?: ChatMessageCreateNestedManyWithoutRoomInput
     attachments?: AttachmentCreateNestedManyWithoutRoomInput
   }
@@ -21968,6 +22447,10 @@ export namespace Prisma {
   export type RoomUncheckedCreateWithoutParticipantsInput = {
     id?: string
     type?: $Enums.RoomType
+    name?: string | null
+    description?: string | null
+    imageUrl?: string | null
+    ownerId?: string | null
     createdAt?: Date | string
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutRoomInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutRoomInput
@@ -21999,6 +22482,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutParticipantsInput = {
@@ -22022,6 +22506,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutParticipantsInput = {
@@ -22043,7 +22528,11 @@ export namespace Prisma {
   export type RoomUpdateWithoutParticipantsInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnerRoomsNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutRoomNestedInput
     attachments?: AttachmentUpdateManyWithoutRoomNestedInput
   }
@@ -22051,6 +22540,10 @@ export namespace Prisma {
   export type RoomUncheckedUpdateWithoutParticipantsInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutRoomNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutRoomNestedInput
@@ -22088,6 +22581,7 @@ export namespace Prisma {
     chatMessages?: ChatMessageUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutParticipantsInput = {
@@ -22111,12 +22605,17 @@ export namespace Prisma {
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type RoomCreateWithoutChatMessagesInput = {
     id?: string
     type?: $Enums.RoomType
+    name?: string | null
+    description?: string | null
+    imageUrl?: string | null
     createdAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnerRoomsInput
     participants?: ParticipantCreateNestedManyWithoutRoomInput
     attachments?: AttachmentCreateNestedManyWithoutRoomInput
   }
@@ -22124,6 +22623,10 @@ export namespace Prisma {
   export type RoomUncheckedCreateWithoutChatMessagesInput = {
     id?: string
     type?: $Enums.RoomType
+    name?: string | null
+    description?: string | null
+    imageUrl?: string | null
+    ownerId?: string | null
     createdAt?: Date | string
     participants?: ParticipantUncheckedCreateNestedManyWithoutRoomInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutRoomInput
@@ -22155,6 +22658,7 @@ export namespace Prisma {
     participants?: ParticipantCreateNestedManyWithoutUserInput
     readReceipts?: ReadReceiptCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutChatMessagesInput = {
@@ -22178,6 +22682,7 @@ export namespace Prisma {
     participants?: ParticipantUncheckedCreateNestedManyWithoutUserInput
     readReceipts?: ReadReceiptUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutChatMessagesInput = {
@@ -22245,7 +22750,11 @@ export namespace Prisma {
   export type RoomUpdateWithoutChatMessagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnerRoomsNestedInput
     participants?: ParticipantUpdateManyWithoutRoomNestedInput
     attachments?: AttachmentUpdateManyWithoutRoomNestedInput
   }
@@ -22253,6 +22762,10 @@ export namespace Prisma {
   export type RoomUncheckedUpdateWithoutChatMessagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     participants?: ParticipantUncheckedUpdateManyWithoutRoomNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutRoomNestedInput
@@ -22290,6 +22803,7 @@ export namespace Prisma {
     participants?: ParticipantUpdateManyWithoutUserNestedInput
     readReceipts?: ReadReceiptUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChatMessagesInput = {
@@ -22313,6 +22827,7 @@ export namespace Prisma {
     participants?: ParticipantUncheckedUpdateManyWithoutUserNestedInput
     readReceipts?: ReadReceiptUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type ReadReceiptUpsertWithWhereUniqueWithoutMessageInput = {
@@ -22368,6 +22883,7 @@ export namespace Prisma {
     participants?: ParticipantCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageCreateNestedManyWithoutAuthorInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutReadReceiptsInput = {
@@ -22391,6 +22907,7 @@ export namespace Prisma {
     participants?: ParticipantUncheckedCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutAuthorInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutReadReceiptsInput = {
@@ -22457,6 +22974,7 @@ export namespace Prisma {
     participants?: ParticipantUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutAuthorNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReadReceiptsInput = {
@@ -22480,6 +22998,7 @@ export namespace Prisma {
     participants?: ParticipantUncheckedUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutAuthorNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type ChatMessageUpsertWithoutReadReceiptsInput = {
@@ -22518,7 +23037,11 @@ export namespace Prisma {
   export type RoomCreateWithoutAttachmentsInput = {
     id?: string
     type?: $Enums.RoomType
+    name?: string | null
+    description?: string | null
+    imageUrl?: string | null
     createdAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnerRoomsInput
     participants?: ParticipantCreateNestedManyWithoutRoomInput
     chatMessages?: ChatMessageCreateNestedManyWithoutRoomInput
   }
@@ -22526,6 +23049,10 @@ export namespace Prisma {
   export type RoomUncheckedCreateWithoutAttachmentsInput = {
     id?: string
     type?: $Enums.RoomType
+    name?: string | null
+    description?: string | null
+    imageUrl?: string | null
+    ownerId?: string | null
     createdAt?: Date | string
     participants?: ParticipantUncheckedCreateNestedManyWithoutRoomInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutRoomInput
@@ -22577,7 +23104,11 @@ export namespace Prisma {
   export type RoomUpdateWithoutAttachmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnerRoomsNestedInput
     participants?: ParticipantUpdateManyWithoutRoomNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutRoomNestedInput
   }
@@ -22585,6 +23116,10 @@ export namespace Prisma {
   export type RoomUncheckedUpdateWithoutAttachmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     participants?: ParticipantUncheckedUpdateManyWithoutRoomNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutRoomNestedInput
@@ -22659,6 +23194,7 @@ export namespace Prisma {
     participants?: ParticipantCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -22682,6 +23218,7 @@ export namespace Prisma {
     participants?: ParticipantUncheckedCreateNestedManyWithoutUserInput
     chatMessages?: ChatMessageUncheckedCreateNestedManyWithoutAuthorInput
     readReceipts?: ReadReceiptUncheckedCreateNestedManyWithoutUserInput
+    ownerRooms?: RoomUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -22742,6 +23279,7 @@ export namespace Prisma {
     participants?: ParticipantUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -22765,6 +23303,7 @@ export namespace Prisma {
     participants?: ParticipantUncheckedUpdateManyWithoutUserNestedInput
     chatMessages?: ChatMessageUncheckedUpdateManyWithoutAuthorNestedInput
     readReceipts?: ReadReceiptUncheckedUpdateManyWithoutUserNestedInput
+    ownerRooms?: RoomUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type NotificationCreateWithoutNotificationTypeInput = {
@@ -22875,6 +23414,15 @@ export namespace Prisma {
     type: string
     data: JsonNullValueInput | InputJsonValue
     isRead?: boolean
+    createdAt?: Date | string
+  }
+
+  export type RoomCreateManyOwnerInput = {
+    id?: string
+    type?: $Enums.RoomType
+    name?: string | null
+    description?: string | null
+    imageUrl?: string | null
     createdAt?: Date | string
   }
 
@@ -23086,6 +23634,39 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomUpdateWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    participants?: ParticipantUpdateManyWithoutRoomNestedInput
+    chatMessages?: ChatMessageUpdateManyWithoutRoomNestedInput
+    attachments?: AttachmentUpdateManyWithoutRoomNestedInput
+  }
+
+  export type RoomUncheckedUpdateWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    participants?: ParticipantUncheckedUpdateManyWithoutRoomNestedInput
+    chatMessages?: ChatMessageUncheckedUpdateManyWithoutRoomNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutRoomNestedInput
+  }
+
+  export type RoomUncheckedUpdateManyWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

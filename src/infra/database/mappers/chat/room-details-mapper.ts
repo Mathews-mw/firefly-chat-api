@@ -23,6 +23,10 @@ export class RoomDetailsMapper {
 		return RoomDetails.create({
 			id: new UniqueEntityId(data.id),
 			type: data.type,
+			name: data.name,
+			description: data.description,
+			imageUrl: data.imageUrl,
+			ownerId: data.ownerId ? new UniqueEntityId(data.ownerId) : null,
 			createdAt: data.createdAt,
 			participants: data.participants.map(ParticipantWithUserMapper.toDomain),
 			attachments: data.attachments.map(AttachmentMapper.toDomain),

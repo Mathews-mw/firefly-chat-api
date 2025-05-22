@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 import { DependencyIdentifiers } from './dependency-identifiers';
 
 import { EventBus } from '@/core/events/event-bus';
+import { NotificationPublisher } from '@/infra/websocket/publishers/notification-publisher ';
 import { PrismaUsersRepository } from '@/infra/database/repositories/prisma-users-repository';
 import { PrismaRoomsRepository } from '@/infra/database/repositories/prisma-rooms-repository';
 import { PrismaSessionsRepository } from '@/infra/database/repositories/prisma-sessions-repository';
@@ -25,6 +26,7 @@ registerSingleton('UsersRepository', PrismaUsersRepository);
 registerSingleton('RoomsRepository', PrismaRoomsRepository);
 registerSingleton('AccountsRepository', PrismaAccountsRepository);
 registerSingleton('SessionsRepository', PrismaSessionsRepository);
+registerSingleton('NotificationPublisher', NotificationPublisher);
 registerSingleton('AttachmentsRepository', PrismaAttachmentsRepository);
 registerSingleton('InvitationsRepository', PrismaInvitationsRepository);
 registerSingleton('FriendshipsRepository', PrismaFriendshipsRepository);

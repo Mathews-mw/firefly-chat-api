@@ -5,25 +5,29 @@ import { RoomWithParticipants } from '@/domains/chat/models/entities/value-objec
 
 export interface IRoomQuerySearch {
 	search?: string;
+	type?: RoomType;
 }
 
 export interface IWithParticipantsParams {
 	roomId: string;
-	type: RoomType;
+	type?: RoomType;
 	userId?: string;
 }
 
 export interface IFindUniqueParams {
 	firstSubjectId: string;
 	secondSubjectId: string;
+	type?: RoomType;
 }
 
 export interface IFindManyRoomsByUserSearchCursor extends ICursorParams {
 	userId: string;
+	type?: RoomType;
 }
 
 export interface IFindManyRoomsCursorResponse extends ICursorResponse {
 	rooms: Array<RoomWithParticipants>;
+	type?: RoomType;
 }
 
 export interface IRoomRepository {

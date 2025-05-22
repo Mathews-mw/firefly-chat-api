@@ -36,6 +36,7 @@ model User {
   chatMessages        ChatMessage[]
   readReceipts        ReadReceipt[]
   notifications       Notification[]
+  ownerRooms          Room[]
 
   @@map("users")
 }
@@ -131,9 +132,15 @@ enum RoomType {
 }
 
 model Room {
-  id        String   @id @default(uuid())
-  type      RoomType @default(PRIVATE) @map("room_type")
-  createdAt DateTime @default(now()) @map("created_at")
+  id          String   @id @default(uuid())
+  type        RoomType @default(PRIVATE) @map("room_type")
+  name        String?
+  description String?
+  imageUrl    String?  @map("image_url")
+  ownerId     String?  @map("owner_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  owner User? @relation(fields: [ownerId], references: [id], onUpdate: Cascade)
 
   participants Participant[]
   chatMessages ChatMessage[]

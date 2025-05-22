@@ -1,6 +1,7 @@
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
 import { Json } from '@/core/types/json';
 import { Notification } from '@/domains/notification/models/notification';
+import { INotificationTypeKey } from '@/domains/notification/models/notification-type';
 import { Prisma, Notification as PrismaNotification } from 'prisma/generated/client';
 
 export class NotificationMapper {
@@ -8,7 +9,7 @@ export class NotificationMapper {
 		return Notification.create(
 			{
 				recipientId: new UniqueEntityId(data.recipientId),
-				type: data.type,
+				type: data.type as INotificationTypeKey,
 				data: data.data as Json,
 				isRead: data.isRead,
 				createdAt: data.createdAt,

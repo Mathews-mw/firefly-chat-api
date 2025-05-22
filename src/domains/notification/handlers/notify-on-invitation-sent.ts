@@ -17,7 +17,6 @@ export class NotifyOnInvitationSent implements EventHandler<InvitationSentEvent>
 	}
 
 	async handler(event: InvitationSentEvent): Promise<void> {
-		console.log('notification handler: ', event);
 		const receiver = await this.usersRepository.findById(event.invitation.receiverId.toString());
 		const sender = await this.usersRepository.findById(event.invitation.senderId.toString());
 
@@ -25,13 +24,27 @@ export class NotifyOnInvitationSent implements EventHandler<InvitationSentEvent>
 			throw new ResourceNotFoundError('User not found', 'RESOURCE_NOT_FOUND_ERROR');
 		}
 
-		await this.notificationService.execute({
+		await this.notificationService.execute<{
+			title: string;
+			content: string;
+			metadata: {
+				inviteId: string;
+				senderId: string;
+				senderName: string;
+				senderAvatarUrl?: string | null;
+			};
+		}>({
 			recipientId: event.invitation.receiverId.toString(),
 			type: 'FRIEND_REQUEST',
 			payload: {
 				title: 'Novo convite de amizade',
 				content: `${receiver.name.split(' ')[0]}, você recebeu um pedido de amizade de ${sender.name}. Confira mais detalhes na seção de convites na sua lista de amigos.`,
-				metadata: { senderId: sender.id.toString() },
+				metadata: {
+					inviteId: event.invitation.id.toString(),
+					senderId: event.invitation.senderId.toString(),
+					senderName: sender.name,
+					senderAvatarUrl: sender.avatarUrl,
+				},
 			},
 		});
 	}

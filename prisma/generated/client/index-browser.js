@@ -178,6 +178,10 @@ exports.Prisma.FriendshipScalarFieldEnum = {
 exports.Prisma.RoomScalarFieldEnum = {
   id: 'id',
   type: 'type',
+  name: 'name',
+  description: 'description',
+  imageUrl: 'imageUrl',
+  ownerId: 'ownerId',
   createdAt: 'createdAt'
 };
 

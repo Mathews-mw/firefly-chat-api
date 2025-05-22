@@ -6,6 +6,7 @@ import {
 	Notification as PrismaNotification,
 	NotificationType as PrismaNotificationType,
 } from 'prisma/generated/client';
+import { INotificationTypeKey } from '@/domains/notification/models/notification-type';
 
 type INotificationDetails = PrismaNotification & {
 	notificationType: PrismaNotificationType;
@@ -16,7 +17,7 @@ export class NotificationDetailsMapper {
 		return NotificationDetails.create({
 			id: new UniqueEntityId(data.id),
 			recipientId: new UniqueEntityId(data.recipientId),
-			type: data.type,
+			type: data.type as INotificationTypeKey,
 			data: data.data as Json,
 			isRead: data.isRead,
 			createdAt: data.createdAt,
